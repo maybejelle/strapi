@@ -15,10 +15,10 @@
     "intro": {
       "type": "text"
     },
-    "devices": {
+    "locations": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::device.device"
+      "target": "api::location.location"
     }
   }
 }
