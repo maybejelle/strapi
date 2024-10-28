@@ -4,7 +4,8 @@
   "info": {
     "singularName": "device",
     "pluralName": "devices",
-    "displayName": "Device"
+    "displayName": "Device",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -17,11 +18,14 @@
     "active": {
       "type": "boolean"
     },
-    "location": {
-      "type": "string"
-    },
     "last_updated": {
       "type": "datetime"
+    },
+    "location": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::location.location",
+      "inversedBy": "devices"
     }
   }
 }

@@ -372,6 +372,7 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiDeviceDevice extends Struct.CollectionTypeSchema {
   collectionName: 'devices';
   info: {
+    description: '';
     displayName: 'Device';
     pluralName: 'devices';
     singularName: 'device';
@@ -391,7 +392,7 @@ export interface ApiDeviceDevice extends Struct.CollectionTypeSchema {
       'api::device.device'
     > &
       Schema.Attribute.Private;
-    location: Schema.Attribute.String;
+    location: Schema.Attribute.Relation<'manyToOne', 'api::location.location'>;
     name: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -423,6 +424,35 @@ export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
       'api::home-page.home-page'
     > &
       Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
+  collectionName: 'locations';
+  info: {
+    displayName: 'Location';
+    pluralName: 'locations';
+    singularName: 'location';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    devices: Schema.Attribute.Relation<'oneToMany', 'api::device.device'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::location.location'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -937,6 +967,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::device.device': ApiDeviceDevice;
       'api::home-page.home-page': ApiHomePageHomePage;
+      'api::location.location': ApiLocationLocation;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
