@@ -3,31 +3,30 @@
         <h1>Welcome to the CMS Front End</h1>
         <p>Click on the links above to view the content</p>
         <p>{{ intro }}</p>
-        <DeviceComponent v-for="device in devices" :key="device._id" :device="device"/>
+        <LocationComponent v-for="location in locations" :key="location.id" :location="location"></LocationComponent>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
-import DeviceComponent from './DeviceComponent.vue';
+import LocationComponent from './LocationComponent.vue';
 
 export default {
     name: 'HomePage',
     components : {
-        DeviceComponent
+        LocationComponent
     },
     data() {
         return {
             intro : '',
-            devices : [],
+            locations : [],
         }
     },
     created() {
-        axios.get('http://localhost:8888/api/home-page?populate=devices')
+        axios.get('http://localhost:8888/api/home-page?populate=locations')
             .then(response => {
                 this.intro = response.data.data.intro;
-                this.devices = response.data.data.devices;
-                console.log(this.devices[0].location);
+                this.locations = response.data.data.locations;
             })
             .catch(error => {
                 console.log(error);
