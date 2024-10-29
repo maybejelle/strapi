@@ -11,6 +11,7 @@
 import axios from 'axios';
 import LocationComponent from './LocationComponent.vue';
 
+
 export default {
     name: 'HomePage',
     components : {
@@ -23,7 +24,11 @@ export default {
         }
     },
     created() {
-        axios.get('http://localhost:8888/api/home-page?populate=locations')
+        axios.get('http://localhost:8888/api/home-page?populate=locations',{
+            headers: {
+                Authorization: `Bearer ${this.$cookies.get('jwt')}`
+            }
+        })
             .then(response => {
                 this.intro = response.data.data.intro;
                 this.locations = response.data.data.locations;
@@ -31,6 +36,6 @@ export default {
             .catch(error => {
                 console.log(error);
             });
-    }
+        }
 }
 </script>
