@@ -1,6 +1,7 @@
 <template>
     <div @click="navigateToOverview">
         <h2>{{location.name}}</h2>
+        <button>Delete</button>
     </div>
 </template>
 
@@ -25,18 +26,27 @@ export default {
 
 <style scoped>
 div{
+    display: flex;
     border: 1px solid black;
-    margin: 10px;
-    padding: 10px;
-    width: 200px;
-    display: inline-block;
+    margin: 10px 0;
+    padding: 10px 0;
+    width: 100%;
     vertical-align: top;
     border-radius: 1rem;
     cursor: pointer;
+    align-items: center;
+    justify-content: space-between;
 }
 
-div:hover{
-    transform: scale(1.05);
-    transition: transform 0.2s;
+h2{
+    margin-left: 2rem;
+}
+
+button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin-right: 2rem;
 }
 </style>

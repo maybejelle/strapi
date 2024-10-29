@@ -1,11 +1,11 @@
 <template>
-    <div>
-        <h1>Welcome to the CMS Front End</h1>
-        <p>Click on the links above to view the content</p>
-        <LocationComponent v-for="location in locations" :key="location.id" :location="location"></LocationComponent>
-        <div class="button" @click="addNewLocation">
-            <p>Add a location</p>
+    <div class="body">
+        <div class="wrapper">
+             <h1>Your locations</h1> 
+             <button @click="addNewLocation">+</button>
         </div>
+        <LocationComponent v-for="location in locations" :key="location.id" :location="location"></LocationComponent>
+       
     </div>
 </template>
 
@@ -51,12 +51,25 @@ export default {
 
 
 <style scoped>
-.button{
-    border: 1px solid black;
-    margin: 1rem;
-    padding: 1rem;
-    display: inline-block;
-    border-radius: 1rem;
+
+button{
+    background-color: transparent;
+    border: none;
     cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.wrapper{
+    height: 40px;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+}
+
+.body{
+    width: 80%;
+    justify-self: center;
 }
 </style>
