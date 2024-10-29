@@ -1,24 +1,25 @@
 <template>
-    <button @click="returnToHomePage">Go Back</button>
-    <div>
-        <h2>{{this.locationName}}</h2>
-        <DeviceComponent v-for="device in devices" :key="device.id" :device="device"></DeviceComponent>
-        <div class="button" @click="addNewDevice">
-            <p>Add a device</p>
+    <div class="body">
+        <button class="back" @click="returnToHomePage">Go Back</button>
+        <div class="wrapper">
+            <h2>{{ this.locationName }}</h2>
+            <button @click="addNewDevice">+</button>
         </div>
+        <DeviceComponent v-for="device in devices" :key="device.id" :device="device"></DeviceComponent>
     </div>
+
 </template>
 
 <script>
 import axios from 'axios';
 import DeviceComponent from './DeviceComponent.vue';
 export default {
-    components : {
+    components: {
         DeviceComponent
     },
     data() {
         return {
-            devices : [],
+            devices: [],
 
         }
     },
@@ -32,12 +33,12 @@ export default {
                 console.log(error);
             });
     },
-    methods : {
+    methods: {
         addNewDevice() {
-            this.$router.push({path: '/add-device', query: {locationId: this.$route.params.id}});
+            this.$router.push({ path: '/add-device', query: { locationId: this.$route.params.id } });
         },
         returnToHomePage() {
-            this.$router.push({path: '/homePage'});
+            this.$router.push({ path: '/homePage' });
         }
     }
 
@@ -47,24 +48,32 @@ export default {
 
 
 <style scoped>
-.button{
-    border: 1px solid black;
-    margin: 1rem;
-    padding: 1rem;
-    display: inline-block;
-    border-radius: 1rem;
-    cursor: pointer;
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
 }
 
-button{
+.body{
+    width: 80%;
+    justify-self: center;
+}
+.back {
     position: absolute;
     margin: 1rem;
-    background-color: transparent;
-    border : 1px solid black;
+    border: 1px solid black;
     border-radius: 1rem;
     cursor: pointer;
     top: 2rem;
     right: 2rem;
+    font-size: 1rem;
 }
 
+button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
 </style>
