@@ -4,6 +4,7 @@ import HomePage from "../components/HomePage.vue"; // Adjust the path as needed
 import LoginPage from "@/components/LoginPage.vue";
 import RegisterPage from "@/components/RegisterPage.vue";
 import AddLoctationPage from "@/components/AddLoctationPage.vue";
+import AddDevicePage from "@/components/AddDevicePage.vue";
 
 
 const routes = [ 
@@ -11,7 +12,8 @@ const routes = [
   { path: "/", component: LoginPage}, // Route for the home page},
   {path : "/homePage", component: HomePage},
   {path: '/register', component: RegisterPage},
-  {path: '/add-location', component: AddLoctationPage }
+  {path: '/add-location', component: AddLoctationPage },
+  {path: "/add-device", component: AddDevicePage}
  
 ];
 

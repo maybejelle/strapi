@@ -1,15 +1,14 @@
 <template>
-    <button class="back" @click="returnToHomePage">Go Back</button>
+    <button class="back" @click="returnToDeviceOverview">Go Back</button>
     <div>
-        <h1>Add Location</h1>
-        <form @submit.prevent="addLocation">
+        <h1>Add Device</h1>
+        <form @submit.prevent="addDevice">
             <label for="name">Name</label>
             <input type="text" id="name" v-model="name">
-            <button type="submit">Add Location</button>
+            <button type="submit">Add Device</button>
         </form>
     </div>
 </template>
-
 
 <script>
 import axios from 'axios';
@@ -21,12 +20,13 @@ export default {
         }
     },
     methods : {
-        addLocation() {
-            axios.post('http://localhost:8888/api/locations',
+        addDevice() {
+            axios.post('http://localhost:8888/api/devices',
                 {
                     "data": {
                         "name": this.name,
-                        "devices": []
+                        "location": this.$route.query.locationId,
+                        "active": true
                     }
                 },
                 {
@@ -37,20 +37,21 @@ export default {
             )
                 .then(response => {
                     if (response.status === 201) {
-                        alert('Location added successfully');
-                        this.$router.push({ path: '/homePage' });
+                        alert('Device added successfully');
+                        this.$router.push({ path: `/device-overview/${this.$route.query.locationId}` });
                     }
                 })
                 .catch(error => {
-                    console.error("There was an error adding the location:", error);
+                    console.error("There was an error adding the device:", error);
                 });
         },
-        returnToHomePage() {
-            this.$router.push({ path: '/homePage' });
+        returnToDeviceOverview() {
+            this.$router.push({ path: `/device-overview/${this.$route.query.locationId}` });
         }
     }
 }
 </script>
+
 
 <style scoped>
 .back {
