@@ -19,6 +19,12 @@
       "relation": "oneToMany",
       "target": "api::device.device",
       "mappedBy": "location"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "locations"
     }
   }
 }

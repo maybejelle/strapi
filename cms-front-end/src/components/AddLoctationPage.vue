@@ -18,7 +18,22 @@ export default {
     data() {
         return {
             name : '',
+            documentId : ''
         }
+    },
+    created(){
+        axios.get('http://localhost:8888/api/users/me',{
+            headers: {
+                Authorization: `Bearer ${this.$cookies.get('jwt')}`
+            }
+        })
+            .then(response => {
+                this.documentId = response.data.documentId;
+
+            })
+            .catch(error => {
+                console.log(error);
+            });
     },
     methods : {
         addLocation() {
@@ -26,7 +41,8 @@ export default {
                 {
                     "data": {
                         "name": this.name,
-                        "devices": []
+                        "devices": [],
+                        "user" : this.documentId
                     }
                 },
                 {

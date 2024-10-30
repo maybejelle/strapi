@@ -24,7 +24,11 @@ export default {
         }
     },
     created() {
-        axios.get(`http://localhost:8888/api/locations/${this.$route.params.id}?populate=devices`)
+        axios.get(`http://localhost:8888/api/locations/${this.$route.params.id}?populate=devices`,{
+            headers: {
+                Authorization: `Bearer ${this.$cookies.get('jwt')}`
+            }
+        })
             .then(response => {
                 this.devices = response.data.data.devices;
                 this.locationName = response.data.data.name;
