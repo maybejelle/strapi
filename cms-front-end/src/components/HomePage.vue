@@ -1,28 +1,27 @@
 <template>
-    <div class="body">
-        <div class="wrapper">
-             <h1>Your locations</h1> 
-             <button @click="addNewLocation">+</button>
-        </div>
-        <LocationComponent v-for="location in locations" :key="location.id" :location="location"></LocationComponent>
-       
+    <div class="wrapper">
+        <IconButton :icon="HomeIcon" @click="returnToHomePage" title="My home"></IconButton>
+        <IconButton :icon="SettingsIcon" @click="goToSettings" title="Settings"></IconButton>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
-import LocationComponent from './LocationComponent.vue';
-import { useRouter } from 'vue-router';
+import IconButton from './IconButton.vue';
+import SettingsIcon from '../assets/settings.png';
+import HomeIcon from '../assets/home-icon.png';
 
 
 export default {
     name: 'HomePage',
     components : {
-        LocationComponent
+        IconButton,
     },
     data() {
         return {
             locations : [],
+            HomeIcon,
+            SettingsIcon
         }
     },
     created() {
@@ -39,37 +38,20 @@ export default {
                 console.log(error);
             });
         },
-        setup(){
-            const router = useRouter();
-            const addNewLocation = () => {
-                router.push({path: '/add-location'});
+        methods: {
+            returnToHomePage() {
+                this.$router.push({ path: '/myHome' });
+            },
+            goToSettings() {
+                this.$router.push({ path: '/settings' });
             }
-            return { addNewLocation }
         }
 }
 </script>
 
 
 <style scoped>
-
-button{
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-}
-
-.wrapper{
-    height: 40px;
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid black;
-}
-
-.body{
-    width: 80%;
-    justify-self: center;
+div{
+    width: 10rem;
 }
 </style>

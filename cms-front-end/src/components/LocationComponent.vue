@@ -1,8 +1,8 @@
 <template>
-    <div >
-        <div class="overview" @click="navigateToOverview"><h2>{{location.name}}</h2></div>
-        
-        <button @click="deleteLocation">Delete</button>
+    <div class="wrapper" @click="navigateToOverview">
+        <h2>{{ location.name }}</h2>
+        <p>{{ location.devices.length }} device(s) registered</p>
+        <button @click.stop="deleteLocation">Delete</button>
     </div>
 </template>
 
@@ -13,19 +13,20 @@ import axios from 'axios';
 
 export default {
     props: {
-       location : Object
+        location: Object
     },
     setup(props) {
         const router = useRouter();
+
         const navigateToOverview = () => {
-           router.push({path: `/device-overview/${props.location.documentId}`});
+            router.push({ path: `/device-overview/${props.location.documentId}` });
         }
         return { navigateToOverview }
     },
     methods: {
-        deleteLocation(){
+        deleteLocation() {
             console.log('delete location');
-            axios.delete(`http://localhost:8888/api/locations/${this.location.documentId}`,{
+            axios.delete(`http://localhost:8888/api/locations/${this.location.documentId}`, {
                 headers: {
                     Authorization: `Bearer ${this.$cookies.get('jwt')}`
                 }
@@ -44,7 +45,7 @@ export default {
 
 
 <style scoped>
-div{
+.wrapper {
     display: flex;
     border: 1px solid black;
     margin: 10px 0;
@@ -57,11 +58,12 @@ div{
     justify-content: space-between;
 }
 
-h2{
-    margin-left: 2rem;
+h2 {
+    margin: 2rem;
+
 }
 
-button{
+button {
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -69,7 +71,11 @@ button{
     margin-right: 2rem;
 }
 
-.overview{
+.overview {
+    width: 100%;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
     border: none;
     padding: 0;
     margin: 0;

@@ -5,12 +5,14 @@ import LoginPage from "@/components/LoginPage.vue";
 import RegisterPage from "@/components/RegisterPage.vue";
 import AddLoctationPage from "@/components/AddLoctationPage.vue";
 import AddDevicePage from "@/components/AddDevicePage.vue";
+import LocationOverview from "@/components/LocationOverview.vue";
 
 
 const routes = [ 
   { path: "/device-overview/:id", component: DeviceOverview}, // Dynamic route for device overview
   { path: "/", component: LoginPage}, // Route for the home page},
   {path : "/homePage", component: HomePage},
+  {path:"/myHome", component: LocationOverview},
   {path: '/register', component: RegisterPage},
   {path: '/add-location', component: AddLoctationPage },
   {path: "/add-device", component: AddDevicePage}

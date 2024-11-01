@@ -54,7 +54,7 @@ export default {
                 .then(response => {
                     if (response.status === 201) {
                         alert('Location added successfully');
-                        this.$router.push({ path: '/homePage' });
+                        this.$router.push({ path: '/myHome' });
                     }
                 })
                 .catch(error => {
@@ -62,7 +62,7 @@ export default {
                 });
         },
         returnToHomePage() {
-            this.$router.push({ path: '/homePage' });
+            this.$router.push({ path: '/myHome' });
         }
     }
 }

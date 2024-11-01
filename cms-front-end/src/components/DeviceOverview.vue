@@ -1,6 +1,6 @@
 <template>
     <div class="body">
-        <button class="back" @click="returnToHomePage">Go Back</button>
+        <button class="back" @click="returnToMyHome">Go Back</button>
         <div class="wrapper">
             <h2>{{ this.locationName }}</h2>
             <button @click="addNewDevice">+</button>
@@ -24,7 +24,7 @@ export default {
         }
     },
     created() {
-        axios.get(`http://localhost:8888/api/locations/${this.$route.params.id}?populate=devices`,{
+        axios.get(`http://localhost:8888/api/locations/${this.$route.params.id}?populate=devices`, {
             headers: {
                 Authorization: `Bearer ${this.$cookies.get('jwt')}`
             }
@@ -41,8 +41,10 @@ export default {
         addNewDevice() {
             this.$router.push({ path: '/add-device', query: { locationId: this.$route.params.id } });
         },
-        returnToHomePage() {
-            this.$router.push({ path: '/homePage' });
+        returnToMyHome() {
+            this.$router.push({
+                path: '/myHome'
+            });
         }
     }
 
@@ -59,10 +61,11 @@ export default {
     border-bottom: 1px solid black;
 }
 
-.body{
+.body {
     width: 80%;
     justify-self: center;
 }
+
 .back {
     position: absolute;
     margin: 1rem;
@@ -74,7 +77,7 @@ export default {
     font-size: 1rem;
 }
 
-button{
+button {
     background-color: transparent;
     border: none;
     cursor: pointer;
