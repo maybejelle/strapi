@@ -51,7 +51,8 @@ export default {
 
 
 <style scoped>
-div{
+.wrapper{
+    display: flex;
     width: 10rem;
 }
 </style>
