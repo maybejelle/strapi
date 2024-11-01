@@ -11,34 +11,32 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { login } from '@/APICalls';
 export default {
     data() {
         return {
-            username : '',
-            password : ''
+            username: '',
+            password: '',
         }
     },
-    methods : {
+    methods: {
         login() {
-            axios.post('http://localhost:8888/api/auth/local', {
-                identifier : this.username,
-                password : this.password
-            })
-            .then(response => {
-                this.$cookies.set('jwt', response.data.jwt);
-                this.$router.push({path: '/homePage'});
-            })
-            .catch(error => {
-                console.log(error);
-            });
+            login(this.username, this.password)
+                .then(response => {
+                    this.$cookies.set('jwt', response.data.jwt);
+                    this.$cookies.set('userId', response.data.user.documentId);
+                    this.$router.push({ path: '/homePage' });    
+                })
+                .catch(error => {
+                    console.error("There was an error logging in:", error);
+                });
         }
     }
 }
 </script>
 
 <style scoped>
-div{
+div {
     border: 1px solid black;
     margin: 10px;
     padding: 10px;
@@ -46,12 +44,12 @@ div{
     border-radius: 1rem;
 }
 
-input{
+input {
     display: block;
     margin: 1rem;
 }
 
-a{
+a {
     color: blue;
     text-decoration: none;
 }

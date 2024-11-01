@@ -12,50 +12,21 @@
 
 
 <script>
-import axios from 'axios';
+import { addLocation } from '@/APICalls';
 
 export default {
     data() {
         return {
-            name : '',
-            documentId : ''
+            name: '',
+            documentId: ''
         }
     },
-    created(){
-        axios.get('http://localhost:8888/api/users/me',{
-            headers: {
-                Authorization: `Bearer ${this.$cookies.get('jwt')}`
-            }
-        })
-            .then(response => {
-                this.documentId = response.data.documentId;
-
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    },
-    methods : {
+    methods: {
         addLocation() {
-            axios.post('http://localhost:8888/api/locations',
-                {
-                    "data": {
-                        "name": this.name,
-                        "devices": [],
-                        "user" : this.documentId
-                    }
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${this.$cookies.get('jwt')}`
-                    }
-                }
-            )
-                .then(response => {
-                    if (response.status === 201) {
-                        alert('Location added successfully');
-                        this.$router.push({ path: '/myHome' });
-                    }
+            addLocation(this.name, this.$cookies.get('jwt'), this.$cookies.get('userId'))
+                .then(() => {
+                    alert('Location added successfully');
+                    this.$router.push({ path: '/myHome' });
                 })
                 .catch(error => {
                     console.error("There was an error adding the location:", error);

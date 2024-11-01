@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import axios from 'axios';
 import DeviceComponent from './DeviceComponent.vue';
+import { getDevices } from '@/APICalls';
 export default {
     components: {
         DeviceComponent
@@ -20,18 +20,15 @@ export default {
     data() {
         return {
             devices: [],
+            locationName: ''
 
         }
     },
     created() {
-        axios.get(`http://localhost:8888/api/locations/${this.$route.params.id}?populate=devices`, {
-            headers: {
-                Authorization: `Bearer ${this.$cookies.get('jwt')}`
-            }
-        })
+        getDevices(this.$route.params.id, this.$cookies.get('jwt'))
             .then(response => {
+                this.locationName = response.data.data.name
                 this.devices = response.data.data.devices;
-                this.locationName = response.data.data.name;
             })
             .catch(error => {
                 console.log(error);

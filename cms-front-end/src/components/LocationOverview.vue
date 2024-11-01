@@ -11,10 +11,9 @@
 </template>
 
 <script>
-import axios from 'axios';
 import LocationComponent from './LocationComponent.vue';
-import { useRouter } from 'vue-router';
 import HomeIcon from '../assets/home-icon.png';
+import { getLocations } from '@/APICalls';
 
 
 export default {
@@ -29,29 +28,20 @@ export default {
         }
     },
     created() {
-        axios.get('http://localhost:8888/api/locations?populate=devices', {
-            headers: {
-                Authorization: `Bearer ${this.$cookies.get('jwt')}`
-            }
-        })
+        getLocations(this.$cookies.get('jwt'))
             .then(response => {
-                console.log(response.data.data);
                 this.locations = response.data.data;
             })
             .catch(error => {
                 console.log(error);
             });
     },
-    setup() {
-        const router = useRouter();
-        const addNewLocation = () => {
-            router.push({ path: '/add-location' });
-        }
-        return { addNewLocation }
-    },
     methods: {
         returnToHomePage() {
             this.$router.push({ path: '/homePage' });
+        },
+        addNewLocation() {
+            this.$router.push({ path: '/add-location' });
         }
     }
 }

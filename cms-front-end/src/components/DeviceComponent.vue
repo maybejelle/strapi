@@ -7,19 +7,15 @@
 
 
 <script>
-import axios from 'axios';
+import { deleteDevice } from '../APICalls';
 
 export default {
     props: {
        device : Object
     },
     methods: {
-        deleteDevice(){
-            axios.delete(`http://localhost:8888/api/devices/${this.device.documentId}`,{
-                headers: {
-                    Authorization: `Bearer ${this.$cookies.get('jwt')}`
-                }
-            })
+        deleteDevice() {
+            deleteDevice(this.device.documentId, this.$cookies.get('jwt'))
                 .then(response => {
                     console.log(response);
                     window.location.reload();

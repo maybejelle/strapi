@@ -14,32 +14,26 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { register } from '@/APICalls';
 
 export default {
     data() {
         return {
-            email : '',
-            password : '',
-            username : ''
+            email: '',
+            password: '',
+            username: ''
         }
     },
-    methods : {
+    methods: {
         register() {
-            axios.post('http://localhost:8888/api/auth/local/register', {
-                username : this.username,
-                email : this.email,
-                password : this.password
-            })
-            .then( response => {
-                if(response.statusText === 'OK'){
-                    alert('Registration successful');
-                }
-                this.$router.push({path: '/'});
-            })
-            .catch(error => {
-                console.log(error);
-            });
+            register(this.username, this.email, this.password)
+                .then(()=> {
+                        alert('User registered successfully');
+                        this.$router.push({ path: '/' });
+                })
+                .catch(error => {
+                    console.error("There was an error registering the user:", error);
+                });
         }
     }
 }
@@ -47,7 +41,7 @@ export default {
 
 
 <style scoped>
-div{
+div {
     border: 1px solid black;
     margin: 10px;
     padding: 10px;
@@ -55,7 +49,7 @@ div{
     border-radius: 1rem;
 }
 
-input{
+input {
     display: block;
     margin-bottom: 1rem;
 }

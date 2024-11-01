@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { addDevice } from '../APICalls';
 
 export default {
     data() {
@@ -21,25 +21,10 @@ export default {
     },
     methods : {
         addDevice() {
-            axios.post('http://localhost:8888/api/devices',
-                {
-                    "data": {
-                        "name": this.name,
-                        "location": this.$route.query.locationId,
-                        "active": true
-                    }
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${this.$cookies.get('jwt')}`
-                    }
-                }
-            )
-                .then(response => {
-                    if (response.status === 201) {
-                        alert('Device added successfully');
-                        this.$router.push({ path: `/device-overview/${this.$route.query.locationId}` });
-                    }
+            addDevice(this.name, this.$route.query.locationId, this.$cookies.get('jwt'))
+                .then(() => {
+                    alert('Device added successfully');
+                    this.$router.push({ path: `/device-overview/${this.$route.query.locationId}` });
                 })
                 .catch(error => {
                     console.error("There was an error adding the device:", error);

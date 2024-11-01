@@ -7,30 +7,16 @@
 </template>
 
 <script>
-import { useRouter } from 'vue-router';
-import axios from 'axios';
+import { deleteLocation } from '../APICalls';
 
 
 export default {
     props: {
         location: Object
     },
-    setup(props) {
-        const router = useRouter();
-
-        const navigateToOverview = () => {
-            router.push({ path: `/device-overview/${props.location.documentId}` });
-        }
-        return { navigateToOverview }
-    },
     methods: {
         deleteLocation() {
-            console.log('delete location');
-            axios.delete(`http://localhost:8888/api/locations/${this.location.documentId}`, {
-                headers: {
-                    Authorization: `Bearer ${this.$cookies.get('jwt')}`
-                }
-            })
+            deleteLocation(this.location.documentId, this.$cookies.get('jwt'))
                 .then(response => {
                     console.log(response);
                     window.location.reload();
@@ -38,6 +24,9 @@ export default {
                 .catch(error => {
                     console.log(error);
                 });
+        },
+        navigateToOverview() {
+            this.$router.push({ path: `/device-overview/${this.location.documentId}` });
         }
     }
 }
