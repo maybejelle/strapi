@@ -70,6 +70,16 @@
       "relation": "oneToMany",
       "target": "api::location.location",
       "mappedBy": "user"
+    },
+    "profile_picture": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
     }
   }
 }

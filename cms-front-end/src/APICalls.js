@@ -84,3 +84,28 @@ export const deleteDevice = async (id, cookie) => {
     },
   });
 };
+
+
+export const getPersonalData = async (cookie) => {
+  return axios.get(`${BASE_URL}/users/me`, {
+    headers: {
+      Authorization: `Bearer ${cookie}`,
+    },
+  });
+};
+
+export const changePassword = async (oldPassword,password, cookie) => {
+  return axios.post(
+    `${BASE_URL}/auth/change-password`,
+    {
+      password: password,
+      currentPassword: oldPassword,
+      passwordConfirmation: password,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${cookie}`,
+      },
+    }
+  );
+}
