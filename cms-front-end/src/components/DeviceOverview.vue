@@ -46,15 +46,12 @@ export default {
             });
         },
         subscribeToTopic() {
-            subscribe('location/devices');
+            subscribe(`user/${this.$cookies.get('jwt')}/location/devices`);
         }
     },
     mounted() {
         onMessage((topic, message) => {
             message = JSON.parse(message.toString());
-            if (message.userId !== this.$cookies.get('userId')) {
-                return;
-            }
             console.log('Message received', message);
             addDevice(message.name,this.$route.params.id,this.$cookies.get('jwt'))
                 .then(() => {

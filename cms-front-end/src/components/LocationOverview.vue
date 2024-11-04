@@ -44,15 +44,13 @@ export default {
         },
         subscribeToLocation(){
             console.log('Subscribing to location');
-            subscribe('location');
+            subscribe(`user/${this.$cookies.get('jwt')}/location`);
         }
     },
     mounted(){
         onMessage((topic, message) => {
             message = JSON.parse(message.toString());
-            if(message.userId !== this.$cookies.get('userId')){
-                return;
-            }
+            console.log('Message received', message);
             addLocation(message.name, this.$cookies.get('jwt'), this.$cookies.get('userId'))
                 .then(response => {
                     this.locations.push(response.data.data);
