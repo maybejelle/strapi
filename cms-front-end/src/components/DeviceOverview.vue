@@ -3,7 +3,7 @@
         <button class="back" @click="returnToMyHome">Go Back</button>
         <div class="wrapper">
             <h2>{{ this.locationName }}</h2>
-            <button @click="addNewDevice">+</button>
+            <button @click="subscribeToTopic">+</button>
         </div>
         <DeviceComponent v-for="device in devices" :key="device.id" :device="device"></DeviceComponent>
     </div>
@@ -12,7 +12,8 @@
 
 <script>
 import DeviceComponent from './DeviceComponent.vue';
-import { getDevices } from '@/APICalls';
+import { getDevices, addDevice } from '@/APICalls';
+import { connectMqtt, subscribe, onMessage } from '../mqttConnection';
 export default {
     components: {
         DeviceComponent
@@ -33,6 +34,7 @@ export default {
             .catch(error => {
                 console.log(error);
             });
+        connectMqtt();
     },
     methods: {
         addNewDevice() {
@@ -42,7 +44,26 @@ export default {
             this.$router.push({
                 path: '/myHome'
             });
+        },
+        subscribeToTopic() {
+            subscribe('location/devices');
         }
+    },
+    mounted() {
+        onMessage((topic, message) => {
+            message = JSON.parse(message.toString());
+            if (message.userId !== this.$cookies.get('userId')) {
+                return;
+            }
+            console.log('Message received', message);
+            addDevice(message.name,this.$route.params.id,this.$cookies.get('jwt'))
+                .then(() => {
+                    window.location.reload();
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        });
     }
 
 }

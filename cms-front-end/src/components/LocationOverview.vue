@@ -3,7 +3,7 @@
         <button class="back" @click="returnToHomePage">Go Back</button>
         <div class="wrapper">
             <h1>Your locations</h1>
-            <button @click="addNewLocation">+</button>
+            <button @click="subscribeToLocation">+</button>
         </div>
         <LocationComponent v-for="location in locations" :key="location.id" :location="location"></LocationComponent>
 
@@ -13,7 +13,8 @@
 <script>
 import LocationComponent from './LocationComponent.vue';
 import HomeIcon from '../assets/home-icon.png';
-import { getLocations } from '@/APICalls';
+import { getLocations, addLocation} from '@/APICalls';
+import { connectMqtt, subscribe, onMessage} from '../mqttConnection';
 
 
 export default {
@@ -35,14 +36,33 @@ export default {
             .catch(error => {
                 console.log(error);
             });
+        connectMqtt();
     },
     methods: {
         returnToHomePage() {
             this.$router.push({ path: '/homePage' });
         },
-        addNewLocation() {
-            this.$router.push({ path: '/add-location' });
+        subscribeToLocation(){
+            console.log('Subscribing to location');
+            subscribe('location');
         }
+    },
+    mounted(){
+        onMessage((topic, message) => {
+            message = JSON.parse(message.toString());
+            if(message.userId !== this.$cookies.get('userId')){
+                return;
+            }
+            addLocation(message.name, this.$cookies.get('jwt'), this.$cookies.get('userId'))
+                .then(response => {
+                    this.locations.push(response.data.data);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+                window.location.reload();
+
+        });
     }
 }
 </script>
