@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { deleteLocation } from '../APICalls';
+import { deleteLocation } from '../infrastructure/APICalls';
 
 
 export default {

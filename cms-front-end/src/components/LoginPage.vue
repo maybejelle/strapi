@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { login } from '@/APICalls';
+import { loginUseCase } from '../application/useCases/loginUseCase';
 export default {
     data() {
         return {
@@ -20,16 +20,10 @@ export default {
         }
     },
     methods: {
-        login() {
-            login(this.username, this.password)
-                .then(response => {
-                    this.$cookies.set('jwt', response.data.jwt);
-                    this.$cookies.set('userId', response.data.user.documentId);
-                    this.$router.push({ path: '/homePage' });    
-                })
-                .catch(error => {
-                    console.error("There was an error logging in:", error);
-                });
+        async login() {
+            await loginUseCase.execute(this.username, this.password);
+
+            this.$router.push({ path: '/homePage' });
         }
     }
 }

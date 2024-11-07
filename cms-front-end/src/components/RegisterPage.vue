@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { register } from '@/APICalls';
+import { registerUseCase } from '../application/useCases/registerUseCase';
 
 export default {
     data() {
@@ -25,15 +25,10 @@ export default {
         }
     },
     methods: {
-        register() {
-            register(this.username, this.email, this.password)
-                .then(()=> {
-                        alert('User registered successfully');
-                        this.$router.push({ path: '/' });
-                })
-                .catch(error => {
-                    console.error("There was an error registering the user:", error);
-                });
+        async register() {
+            await registerUseCase.execute(this.username, this.email, this.password);
+            this.$router.push({ path: '/' });
+
         }
     }
 }

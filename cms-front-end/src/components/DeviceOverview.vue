@@ -3,7 +3,6 @@
         <button class="back" @click="returnToMyHome">Go Back</button>
         <div class="wrapper">
             <h2>{{ this.locationName }}</h2>
-            <button @click="subscribeToTopic">+</button>
         </div>
         <DeviceComponent v-for="device in devices" :key="device.id" :device="device"></DeviceComponent>
     </div>
@@ -12,8 +11,7 @@
 
 <script>
 import DeviceComponent from './DeviceComponent.vue';
-import { getDevices, addDevice } from '@/APICalls';
-import { connectMqtt, subscribe, onMessage } from '../mqttConnection';
+import { fetchDevicesUseCase } from '../application/useCases/fetchDevicesUseCase';
 export default {
     components: {
         DeviceComponent
@@ -25,16 +23,11 @@ export default {
 
         }
     },
-    created() {
-        getDevices(this.$route.params.id, this.$cookies.get('jwt'))
-            .then(response => {
-                this.locationName = response.data.data.name
-                this.devices = response.data.data.devices;
-            })
-            .catch(error => {
-                console.log(error);
-            });
-        connectMqtt();
+    async created() {
+        const data = await fetchDevicesUseCase.execute(this.$route.params.id)
+        this.devices = data.devices;
+        this.locationName = data.name;
+
     },
     methods: {
         addNewDevice() {
@@ -44,25 +37,8 @@ export default {
             this.$router.push({
                 path: '/myHome'
             });
-        },
-        subscribeToTopic() {
-            subscribe(`user/${this.$cookies.get('jwt')}/location/devices`);
         }
-    },
-    mounted() {
-        onMessage((topic, message) => {
-            message = JSON.parse(message.toString());
-            console.log('Message received', message);
-            addDevice(message.name,this.$route.params.id,this.$cookies.get('jwt'))
-                .then(() => {
-                    window.location.reload();
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        });
     }
-
 }
 
 </script>
@@ -74,6 +50,7 @@ export default {
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid black;
+    height: 2rem;
 }
 
 .body {

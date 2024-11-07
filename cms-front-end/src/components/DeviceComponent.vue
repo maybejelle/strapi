@@ -7,7 +7,7 @@
 
 
 <script>
-import { deleteDevice } from '../APICalls';
+import { deleteDevice } from '../infrastructure/APICalls';
 
 export default {
     props: {
