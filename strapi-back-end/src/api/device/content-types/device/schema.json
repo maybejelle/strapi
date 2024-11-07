@@ -26,6 +26,12 @@
       "relation": "manyToOne",
       "target": "api::location.location",
       "inversedBy": "devices"
+    },
+    "families": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::family.family",
+      "mappedBy": "devices"
     }
   }
 }

@@ -72,14 +72,39 @@
       "mappedBy": "user"
     },
     "profile_picture": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
+    },
+    "friends": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "users"
+    },
+    "users": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "friends"
+    },
+    "family_owner": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::family.family",
+      "mappedBy": "owner"
+    },
+    "families_member": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::family.family",
+      "mappedBy": "members"
     }
   }
 }
