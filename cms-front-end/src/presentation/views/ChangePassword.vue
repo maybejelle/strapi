@@ -12,7 +12,7 @@
 
 
 <script>
-import { changePassword } from '../infrastructure/APICalls';
+import { changePassword } from '../../infrastructure/APICalls';
 export default {
     data() {
         return {

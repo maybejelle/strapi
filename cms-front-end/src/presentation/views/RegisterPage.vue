@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { registerUseCase } from '../application/useCases/registerUseCase';
+import { registerUseCase } from '../../application/useCases/registerUseCase';
 
 export default {
     data() {

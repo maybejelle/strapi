@@ -15,7 +15,7 @@
 
 
 <script>
-import { getPersonalData } from '../infrastructure/APICalls';
+import { getPersonalData } from '../../infrastructure/APICalls';
 export default {
     data() {
         return {

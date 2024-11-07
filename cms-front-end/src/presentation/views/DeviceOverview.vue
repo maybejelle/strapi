@@ -11,7 +11,7 @@
 
 <script>
 import DeviceComponent from './DeviceComponent.vue';
-import { fetchDevicesUseCase } from '../application/useCases/fetchDevicesUseCase';
+import { fetchDevicesUseCase } from '../../application/useCases/fetchDevicesUseCase';
 export default {
     components: {
         DeviceComponent

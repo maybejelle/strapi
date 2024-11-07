@@ -11,8 +11,8 @@
 
 <script>
 import LocationComponent from './LocationComponent.vue';
-import HomeIcon from '../assets/home-icon.png';
-import { fetchLocationsUseCase } from '../application/useCases/fetchLocationsUseCase';
+import HomeIcon from '../../assets/home-icon.png';
+import { fetchLocationsUseCase } from '../../application/useCases/fetchLocationsUseCase';
 
 
 export default {

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { loginUseCase } from '../application/useCases/loginUseCase';
+import { loginUseCase } from '../../application/useCases/loginUseCase';
 export default {
     data() {
         return {

@@ -7,8 +7,8 @@
 
 <script>
 import IconButton from './IconButton.vue';
-import SettingsIcon from '../assets/settings.png';
-import HomeIcon from '../assets/home-icon.png';
+import SettingsIcon from '../../assets/settings.png';
+import HomeIcon from '../../assets/home-icon.png';
 
 
 export default {

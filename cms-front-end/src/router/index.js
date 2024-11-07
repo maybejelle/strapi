@@ -1,11 +1,12 @@
 import { createRouter, createWebHistory } from "vue-router";
-import DeviceOverview from "@/components/DeviceOverview.vue"; // Adjust the path as needed
-import HomePage from "../components/HomePage.vue"; // Adjust the path as needed
-import LoginPage from "@/components/LoginPage.vue";
-import RegisterPage from "@/components/RegisterPage.vue";
-import LocationOverview from "@/components/LocationOverview.vue";
-import SettingsPage from "../components/SettingsPage.vue";
-import ChangePassword from "../components/ChangePassword.vue";
+import DeviceOverview from "../presentation/views/DeviceOverview.vue";
+import LoginPage from "../presentation/views/LoginPage.vue";
+import HomePage from "../presentation/views/HomePage.vue";
+import LocationOverview from "../presentation/views/LocationOverview.vue";
+import RegisterPage from "../presentation/views/RegisterPage.vue";
+import SettingsPage from "../presentation/views/SettingsPage.vue";
+import ChangePassword from "../presentation/views/ChangePassword.vue";
+
 
 
 const routes = [ 
