@@ -1010,7 +1010,11 @@ export interface PluginUsersPermissionsUser
       'api::family.family'
     >;
     family_owner: Schema.Attribute.Relation<'oneToOne', 'api::family.family'>;
-    friend_requests: Schema.Attribute.Relation<
+    friend_requests_recipient: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::friend-request.friend-request'
+    >;
+    friend_requests_requester: Schema.Attribute.Relation<
       'oneToMany',
       'api::friend-request.friend-request'
     >;
