@@ -439,6 +439,45 @@ export interface ApiFamilyFamily extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiFriendRequestFriendRequest
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'friend_requests';
+  info: {
+    displayName: 'Friend Request';
+    pluralName: 'friend-requests';
+    singularName: 'friend-request';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::friend-request.friend-request'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    recipient: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    request_status: Schema.Attribute.Enumeration<
+      ['pending', 'accepted', 'rejected']
+    >;
+    requester: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiHomePageHomePage extends Struct.SingleTypeSchema {
   collectionName: 'home_pages';
   info: {
@@ -971,6 +1010,10 @@ export interface PluginUsersPermissionsUser
       'api::family.family'
     >;
     family_owner: Schema.Attribute.Relation<'oneToOne', 'api::family.family'>;
+    friend_requests: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::friend-request.friend-request'
+    >;
     friends: Schema.Attribute.Relation<
       'manyToMany',
       'plugin::users-permissions.user'
@@ -1025,6 +1068,7 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::device.device': ApiDeviceDevice;
       'api::family.family': ApiFamilyFamily;
+      'api::friend-request.friend-request': ApiFriendRequestFriendRequest;
       'api::home-page.home-page': ApiHomePageHomePage;
       'api::location.location': ApiLocationLocation;
       'plugin::content-releases.release': PluginContentReleasesRelease;

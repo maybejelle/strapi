@@ -105,6 +105,12 @@
       "relation": "manyToMany",
       "target": "api::family.family",
       "mappedBy": "members"
+    },
+    "friend_requests": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::friend-request.friend-request",
+      "mappedBy": "recipient"
     }
   }
 }
