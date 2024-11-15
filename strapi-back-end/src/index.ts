@@ -19,57 +19,91 @@ export default {
   bootstrap({ strapi }) {
     // Listen to lifecycle events for the friend-request model
     strapi.db.lifecycles.subscribe({
-      models: ['api::friend-request.friend-request'],
+      models: ["api::friend-request.friend-request"],
 
       async afterUpdate(event) {
         const { result } = event;
         const { request_status } = result;
 
         // Check if the friend request is accepted
-        if (request_status === 'accepted') {
+        if (request_status === "accepted") {
           try {
-            // Fetch requester and recipient data with their friend lists
+            // Fetch requester and recipient data with their family data
             const request = await strapi.entityService.findOne(
-              'api::friend-request.friend-request',
+              "api::friend-request.friend-request",
               result.id,
-              { populate: ['requester', 'recipient'] }
+              { populate: ["requester", "recipient"] }
             );
+
+            const recipient = await strapi
+              .query("plugin::users-permissions.user")
+              .findOne({
+                where: { id: request.recipient.id },
+                populate: { family_owner: true },
+              });
+
+            if (recipient.family_owner.documentId === null) {
+              return strapi.log.error("Recipient does not have a family");
+            }
+
+            const family = await strapi.query("api::family.family").findOne({
+              where: { documentId: recipient.family_owner.documentId },
+              populate: { members: true },
+            });
+
+            console.log(family);
+
+            if (!family) {
+              strapi.log.error(`Family not found.`);
+              return;
+            }
 
             if (request.requester && request.recipient) {
               const requesterId = request.requester.id;
-              const recipientId = request.recipient.id;
+              const familyId = family.id;
 
-              strapi.log.info(`Updating friends for requester ${requesterId} and recipient ${recipientId}`);
+              strapi.log.info(
+                `Adding requester ${requesterId} to family ${familyId}`
+              );
 
-              // Update friends list for requester
-              await strapi.entityService.update('plugin::users-permissions.user', requesterId, {
-                data: {
-                  friends: [
-                    ...(request.requester.friends ? request.requester.friends.map(friend => friend.id) : []),
-                    recipientId,
-                  ],
-                },
-              });
+              // Add the requester to the family members
+              await strapi.entityService.update(
+                "api::family.family",
+                familyId,
+                {
+                  data: {
+                    members: [
+                      ...(family.members
+                        ? family.members.map((member) => member.id)
+                        : []),
+                      requesterId,
+                    ],
+                  },
+                }
+              );
 
-              // Update friends list for recipient
-              await strapi.entityService.update('plugin::users-permissions.user', recipientId, {
-                data: {
-                  friends: [
-                    ...(request.recipient.friends ? request.recipient.friends.map(friend => friend.id) : []),
-                    requesterId,
-                  ],
-                },
-              });
+              strapi.log.info(
+                `Requester ${requesterId} added to family ${familyId}`
+              );
 
-              // Delete the friend request after updating friends
-              await strapi.entityService.delete('api::friend-request.friend-request', result.id);
+              // Delete the friend request after adding the user to the family
+              await strapi.entityService.delete(
+                "api::friend-request.friend-request",
+                result.id
+              );
 
-              strapi.log.info(`Friend request with ID ${result.id} deleted after becoming friends`);
+              strapi.log.info(
+                `Friend request with ID ${result.id} deleted after processing`
+              );
             } else {
-              strapi.log.error(`Requester or recipient data is missing for friend-request id: ${result.id}`);
+              strapi.log.error(
+                `Requester or recipient data is missing for friend-request id: ${result.id}`
+              );
             }
           } catch (error) {
-            strapi.log.error(`Failed to update friends or delete friend request: ${error}`);
+            strapi.log.error(
+              `Failed to add user to family or delete friend request: ${error}`
+            );
           }
         }
       },
