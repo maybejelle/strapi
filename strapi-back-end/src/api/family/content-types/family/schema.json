@@ -4,7 +4,8 @@
   "info": {
     "singularName": "family",
     "pluralName": "families",
-    "displayName": "Family"
+    "displayName": "Family",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -31,6 +32,12 @@
       "relation": "manyToMany",
       "target": "api::device.device",
       "inversedBy": "families"
+    },
+    "locations": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::location.location",
+      "mappedBy": "family"
     }
   }
 }

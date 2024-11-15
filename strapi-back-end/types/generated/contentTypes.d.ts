@@ -405,6 +405,7 @@ export interface ApiDeviceDevice extends Struct.CollectionTypeSchema {
 export interface ApiFamilyFamily extends Struct.CollectionTypeSchema {
   collectionName: 'families';
   info: {
+    description: '';
     displayName: 'Family';
     pluralName: 'families';
     singularName: 'family';
@@ -423,6 +424,7 @@ export interface ApiFamilyFamily extends Struct.CollectionTypeSchema {
       'api::family.family'
     > &
       Schema.Attribute.Private;
+    locations: Schema.Attribute.Relation<'oneToMany', 'api::location.location'>;
     members: Schema.Attribute.Relation<
       'manyToMany',
       'plugin::users-permissions.user'
@@ -523,6 +525,7 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     devices: Schema.Attribute.Relation<'oneToMany', 'api::device.device'>;
+    family: Schema.Attribute.Relation<'manyToOne', 'api::family.family'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',

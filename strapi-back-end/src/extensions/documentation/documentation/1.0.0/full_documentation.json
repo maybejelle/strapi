@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2024-11-10T13:36:32.893Z"
+    "x-generation-date": "2024-11-15T14:09:41.405Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -4874,7 +4874,7 @@
                                   }
                                 }
                               },
-                              "friend_requests": {
+                              "friend_requests_requester": {
                                 "type": "array",
                                 "items": {
                                   "type": "object",
@@ -4969,6 +4969,20 @@
                                   }
                                 }
                               },
+                              "friend_requests_recipient": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
+                                    "documentId": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              },
                               "createdAt": {
                                 "type": "string",
                                 "format": "date-time"
@@ -5037,6 +5051,20 @@
                             }
                           },
                           "devices": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "number"
+                                },
+                                "documentId": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "locations": {
                             "type": "array",
                             "items": {
                               "type": "object",
@@ -5159,6 +5187,17 @@
                 }
               },
               "user": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "documentId": {
+                    "type": "string"
+                  }
+                }
+              },
+              "family": {
                 "type": "object",
                 "properties": {
                   "id": {
@@ -5338,6 +5377,20 @@
                 }
               },
               "devices": {
+                "type": "array",
+                "items": {
+                  "oneOf": [
+                    {
+                      "type": "integer"
+                    },
+                    {
+                      "type": "string"
+                    }
+                  ],
+                  "example": "string or id"
+                }
+              },
+              "locations": {
                 "type": "array",
                 "items": {
                   "oneOf": [
@@ -5965,6 +6018,20 @@
                                     }
                                   }
                                 },
+                                "locations": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": {
+                                        "type": "number"
+                                      },
+                                      "documentId": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                                },
                                 "createdAt": {
                                   "type": "string",
                                   "format": "date-time"
@@ -6074,6 +6141,17 @@
                       }
                     },
                     "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "documentId": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "family": {
                       "type": "object",
                       "properties": {
                         "id": {
@@ -6537,7 +6615,7 @@
                   }
                 }
               },
-              "friend_requests": {
+              "friend_requests_requester": {
                 "type": "array",
                 "items": {
                   "type": "object",
@@ -6632,6 +6710,20 @@
                   }
                 }
               },
+              "friend_requests_recipient": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "documentId": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
               "createdAt": {
                 "type": "string",
                 "format": "date-time"
@@ -6700,6 +6792,20 @@
             }
           },
           "devices": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "documentId": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "locations": {
             "type": "array",
             "items": {
               "type": "object",
@@ -7427,6 +7533,20 @@
                                     }
                                   }
                                 },
+                                "locations": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": {
+                                        "type": "number"
+                                      },
+                                      "documentId": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                                },
                                 "createdAt": {
                                   "type": "string",
                                   "format": "date-time"
@@ -7536,6 +7656,17 @@
                       }
                     },
                     "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "documentId": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "family": {
                       "type": "object",
                       "properties": {
                         "id": {
@@ -7999,7 +8130,7 @@
                   }
                 }
               },
-              "friend_requests": {
+              "friend_requests_requester": {
                 "type": "array",
                 "items": {
                   "type": "object",
@@ -8090,6 +8221,20 @@
                           }
                         }
                       }
+                    }
+                  }
+                }
+              },
+              "friend_requests_recipient": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "documentId": {
+                      "type": "string"
                     }
                   }
                 }
@@ -9244,7 +9389,7 @@
                                     }
                                   }
                                 },
-                                "friend_requests": {
+                                "friend_requests_requester": {
                                   "type": "array",
                                   "items": {
                                     "type": "object",
@@ -9339,6 +9484,20 @@
                                     }
                                   }
                                 },
+                                "friend_requests_recipient": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": {
+                                        "type": "number"
+                                      },
+                                      "documentId": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                                },
                                 "createdAt": {
                                   "type": "string",
                                   "format": "date-time"
@@ -9407,6 +9566,20 @@
                               }
                             },
                             "devices": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "documentId": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            },
+                            "locations": {
                               "type": "array",
                               "items": {
                                 "type": "object",
@@ -9529,6 +9702,17 @@
                   }
                 },
                 "user": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "documentId": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "family": {
                   "type": "object",
                   "properties": {
                     "id": {
@@ -9752,6 +9936,17 @@
                 }
               },
               "user": {
+                "oneOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "example": "string or id"
+              },
+              "family": {
                 "oneOf": [
                   {
                     "type": "integer"
@@ -10763,6 +10958,20 @@
                                 }
                               }
                             },
+                            "locations": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "documentId": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            },
                             "createdAt": {
                               "type": "string",
                               "format": "date-time"
@@ -10830,7 +11039,7 @@
                             }
                           }
                         },
-                        "friend_requests": {
+                        "friend_requests_requester": {
                           "type": "array",
                           "items": {
                             "type": "object",
@@ -10925,6 +11134,20 @@
                             }
                           }
                         },
+                        "friend_requests_recipient": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "documentId": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
                         "createdAt": {
                           "type": "string",
                           "format": "date-time"
@@ -10975,6 +11198,17 @@
                               }
                             }
                           }
+                        }
+                      }
+                    },
+                    "family": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "documentId": {
+                          "type": "string"
                         }
                       }
                     },
@@ -11100,6 +11334,17 @@
             }
           },
           "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "documentId": {
+                "type": "string"
+              }
+            }
+          },
+          "family": {
             "type": "object",
             "properties": {
               "id": {
