@@ -38,6 +38,12 @@
       "relation": "oneToMany",
       "target": "api::location.location",
       "mappedBy": "family"
+    },
+    "family_requests": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::family-request.family-request",
+      "mappedBy": "family"
     }
   }
 }

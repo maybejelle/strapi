@@ -402,6 +402,43 @@ export interface ApiDeviceDevice extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiFamilyRequestFamilyRequest
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'family_requests';
+  info: {
+    displayName: 'Family Request';
+    pluralName: 'family-requests';
+    singularName: 'family-request';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    family: Schema.Attribute.Relation<'manyToOne', 'api::family.family'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::family-request.family-request'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    recipient: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    request_status: Schema.Attribute.Enumeration<
+      ['pending', 'accepted', 'rejected']
+    > &
+      Schema.Attribute.DefaultTo<'pending'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiFamilyFamily extends Struct.CollectionTypeSchema {
   collectionName: 'families';
   info: {
@@ -418,6 +455,10 @@ export interface ApiFamilyFamily extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     devices: Schema.Attribute.Relation<'manyToMany', 'api::device.device'>;
+    family_requests: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::family-request.family-request'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -445,6 +486,7 @@ export interface ApiFriendRequestFriendRequest
   extends Struct.CollectionTypeSchema {
   collectionName: 'friend_requests';
   info: {
+    description: '';
     displayName: 'Friend Request';
     pluralName: 'friend-requests';
     singularName: 'friend-request';
@@ -1013,6 +1055,10 @@ export interface PluginUsersPermissionsUser
       'api::family.family'
     >;
     family_owner: Schema.Attribute.Relation<'oneToOne', 'api::family.family'>;
+    family_requests: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::family-request.family-request'
+    >;
     friend_requests_recipient: Schema.Attribute.Relation<
       'oneToMany',
       'api::friend-request.friend-request'
@@ -1074,6 +1120,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::device.device': ApiDeviceDevice;
+      'api::family-request.family-request': ApiFamilyRequestFamilyRequest;
       'api::family.family': ApiFamilyFamily;
       'api::friend-request.friend-request': ApiFriendRequestFriendRequest;
       'api::home-page.home-page': ApiHomePageHomePage;

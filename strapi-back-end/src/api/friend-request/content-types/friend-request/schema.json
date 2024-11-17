@@ -4,7 +4,8 @@
   "info": {
     "singularName": "friend-request",
     "pluralName": "friend-requests",
-    "displayName": "Friend Request"
+    "displayName": "Friend Request",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true

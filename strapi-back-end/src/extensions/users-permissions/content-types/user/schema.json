@@ -117,6 +117,12 @@
       "relation": "oneToMany",
       "target": "api::friend-request.friend-request",
       "mappedBy": "recipient"
+    },
+    "family_requests": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::family-request.family-request",
+      "mappedBy": "recipient"
     }
   }
 }

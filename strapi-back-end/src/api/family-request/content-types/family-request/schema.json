@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "family_requests",
+  "info": {
+    "singularName": "family-request",
+    "pluralName": "family-requests",
+    "displayName": "Family Request"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "request_status": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "accepted",
+        "rejected"
+      ],
+      "default": "pending"
+    },
+    "recipient": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "family_requests"
+    },
+    "family": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::family.family",
+      "inversedBy": "family_requests"
+    }
+  }
+}
