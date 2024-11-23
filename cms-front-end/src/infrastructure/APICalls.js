@@ -1,16 +1,16 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8888/api";
+const BASE_URL = "http://localhost:8081";
 
 export const login = async (identifier, password) => {
-  return axios.post(`${BASE_URL}/auth/local`, {
+  return axios.post(`${BASE_URL}/login`, {
     identifier: identifier,
     password: password,
   });
 };
 
 export const register = async (username, email, password) => {
-  return axios.post(`${BASE_URL}/auth/local/register`, {
+  return axios.post(`${BASE_URL}/register`, {
     username: username,
     email: email,
     password: password,
@@ -18,9 +18,9 @@ export const register = async (username, email, password) => {
 };
 
 export const getLocations = async (cookie) => {
-  return axios.get(`${BASE_URL}/locations?populate=devices`, {
+  return axios.get(`${BASE_URL}/locations`, {
     headers: {
-      Authorization: `Bearer ${cookie}`,
+      Authorization: `${cookie}`,
     },
   });
 };
@@ -52,9 +52,9 @@ export const deleteLocation = async (id, cookie) => {
 };
 
 export const getDevices = async (id, cookie) => {
-  return axios.get(`${BASE_URL}/locations/${id}?populate=devices`, {
+  return axios.get(`${BASE_URL}/locations/${id}`, {
     headers: {
-      Authorization: `Bearer ${cookie}`,
+      Authorization: `${cookie}`,
     },
   });
 };
@@ -71,7 +71,7 @@ export const addDevice = async (name, locationId, cookie) => {
     },
     {
       headers: {
-        Authorization: `Bearer ${cookie}`,
+        Authorization: `${cookie}`,
       },
     }
   );
@@ -87,9 +87,9 @@ export const deleteDevice = async (id, cookie) => {
 
 
 export const getPersonalData = async (cookie) => {
-  return axios.get(`${BASE_URL}/users/me`, {
+  return axios.get(`${BASE_URL}/user`, {
     headers: {
-      Authorization: `Bearer ${cookie}`,
+      Authorization: `${cookie}`,
     },
   });
 };

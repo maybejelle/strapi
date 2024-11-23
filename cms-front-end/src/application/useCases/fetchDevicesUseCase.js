@@ -6,6 +6,6 @@ export const fetchDevicesUseCase = {
     const sessionService = new SessionServiceImpl();
     const jwt = sessionService.getToken();
     const response = await getDevices(id, jwt);
-    return response.data.data;
+    return response.data;
   },
 };

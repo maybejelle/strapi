@@ -7,6 +7,7 @@ export const fetchLocationsUseCase = {
         const sessionService = new SessionServiceImpl();
         const jwt = sessionService.getToken();
         const response = await getLocations(jwt);
+        console.log(response.data);
         return response.data.data;
     }
 }

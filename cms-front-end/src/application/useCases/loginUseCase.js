@@ -8,6 +8,6 @@ export const loginUseCase = {
 
 
         const response = await login(username, password);
-        sessionService.setTokenAndUserId(response.data.jwt, response.data.user.documentId);
+        sessionService.setTokenAndUserId(response.data.jwt, response.data.documentId);
     }
 }

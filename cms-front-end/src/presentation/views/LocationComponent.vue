@@ -1,7 +1,6 @@
 <template>
     <div class="wrapper" @click="navigateToOverview">
         <h2>{{ location.name }}</h2>
-        <p>{{ location.devices.length }} device(s) registered</p>
         <button @click.stop="deleteLocation">Delete</button>
     </div>
 </template>
