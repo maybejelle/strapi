@@ -5,7 +5,6 @@ import HomePage from "../presentation/views/HomePage.vue";
 import LocationOverview from "../presentation/views/LocationOverview.vue";
 import RegisterPage from "../presentation/views/RegisterPage.vue";
 import SettingsPage from "../presentation/views/SettingsPage.vue";
-import ChangePassword from "../presentation/views/ChangePassword.vue";
 
 
 
@@ -15,8 +14,7 @@ const routes = [
   {path : "/homePage", component: HomePage},
   {path:"/myHome", component: LocationOverview},
   {path: '/register', component: RegisterPage},
-  {path:"/settings", component: SettingsPage},
-  {path:"/changePassword", component: ChangePassword},
+  {path:"/settings", component: SettingsPage}
  
 ];
 

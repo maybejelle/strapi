@@ -1,12 +1,10 @@
 <template>
     <div class="wrapper" @click="navigateToOverview">
         <h2>{{ location.name }}</h2>
-        <button @click.stop="deleteLocation">Delete</button>
     </div>
 </template>
 
 <script>
-import { deleteLocation } from '../../infrastructure/APICalls';
 
 
 export default {
@@ -14,16 +12,6 @@ export default {
         location: Object
     },
     methods: {
-        deleteLocation() {
-            deleteLocation(this.location.documentId, this.$cookies.get('jwt'))
-                .then(response => {
-                    console.log(response);
-                    window.location.reload();
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        },
         navigateToOverview() {
             this.$router.push({ path: `/device-overview/${this.location.documentId}` });
         }

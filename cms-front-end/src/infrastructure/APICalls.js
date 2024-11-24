@@ -87,25 +87,38 @@ export const deleteDevice = async (id, cookie) => {
 
 
 export const getPersonalData = async (cookie) => {
-  return axios.get(`${BASE_URL}/user`, {
+  const response = await axios.get(`${BASE_URL}/user`, {
     headers: {
       Authorization: `${cookie}`,
     },
   });
+  response.data.families = getFamilies(response.data);
+  return response;
 };
 
-export const changePassword = async (oldPassword,password, cookie) => {
-  return axios.post(
-    `${BASE_URL}/auth/change-password`,
-    {
-      password: password,
-      currentPassword: oldPassword,
-      passwordConfirmation: password,
+export const getFamilyData = async (cookie,id) => {
+  const APIResponse = await axios.get(`${BASE_URL}/family/${id}`, {
+    headers: {
+      Authorization: `${cookie}`,
     },
-    {
-      headers: {
-        Authorization: `Bearer ${cookie}`,
-      },
-    }
-  );
+  });
+  const response = {
+    familyId : APIResponse.data.documentId,
+    familyName : APIResponse.data.name,
+    owner : APIResponse.data.owner.username,
+    members : APIResponse.data.members.map(member => member.username),
+  };
+  return response;
+};
+
+
+function getFamilies(data) {
+  let families = [];
+  if(data.family_owner !== null) {
+    families.push(data.family_owner);
+  }
+  if(data.families_member.length !== 0) {
+    families.push(...data.families_member);
+  }
+  return families;
 }
