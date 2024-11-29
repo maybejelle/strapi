@@ -448,7 +448,7 @@ export interface ApiFamilyFamily extends Struct.CollectionTypeSchema {
     singularName: 'family';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     createdAt: Schema.Attribute.DateTime;
