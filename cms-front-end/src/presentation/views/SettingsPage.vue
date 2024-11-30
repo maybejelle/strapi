@@ -15,7 +15,7 @@
                         Family Name: {{ familyDetails[family.documentId].familyName }}
                     </p>
                     <p v-if="familyDetails[family.documentId]">
-                        Owner: {{ familyDetails[family.documentId].owner}}
+                        Owner: {{ familyDetails[family.documentId].owner }}
                     </p>
                     <p v-if="familyDetails[family.documentId]">
                         Members: {{ familyDetails[family.documentId].members.join(", ") }}
@@ -29,7 +29,8 @@
 
 
 <script>
-import { getFamilyData, getPersonalData } from '../../infrastructure/APICalls';
+import { getFamilyDataUseCase } from '../../application/useCases/getFamilyDataUseCase';
+import { getPersonalDataUseCase } from '../../application/useCases/getPersonalDataUseCase';
 export default {
     data() {
         return {
@@ -40,37 +41,25 @@ export default {
             familyDetails: {}
         }
     },
-    created() {
-        getPersonalData(this.$cookies.get('jwt'))
-            .then(response => {
-                this.name = response.data.username
-                this.email = response.data.email
-                this.families = response.data.families
-            })
-            .catch(error => {
-                console.log(error);
-            });
+    async created() {
+        const response = await getPersonalDataUseCase.execute();
+        this.name = response.username;
+        this.email = response.email;
+        this.families = response.families;
     },
     methods: {
         returnToHomePage() {
             this.$router.push({ path: '/homePage' });
         },
-        getFamilyData(familyId) {
+        async getFamilyData(familyId) {
             if (this.familyDetails[familyId]) {
                 this.expandedFamily = null
                 this.familyDetails[familyId] = null
                 return
             }
-            getFamilyData(this.$cookies.get('jwt'), familyId)
-                .then(response => {
-                    this.expandedFamily = familyId
-                    this.familyDetails[familyId] = response
-
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-
+            const response = await getFamilyDataUseCase.execute(familyId);
+            this.familyDetails[familyId] = response;
+            this.expandedFamily = familyId;
         },
     }
 }
@@ -105,7 +94,7 @@ export default {
     right: 2rem;
 }
 
-.wrapper>div{
+.wrapper>div {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -114,7 +103,7 @@ export default {
     margin: 2rem;
 }
 
-button{
+button {
     background-color: transparent;
     border: none;
     cursor: pointer;
