@@ -123,6 +123,12 @@
       "relation": "oneToMany",
       "target": "api::family-request.family-request",
       "mappedBy": "recipient"
+    },
+    "devices": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::device.device",
+      "mappedBy": "user"
     }
   }
 }

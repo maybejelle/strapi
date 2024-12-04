@@ -14,7 +14,7 @@
       "name": "Apache 2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
-    "x-generation-date": "2024-11-30T10:46:33.023Z"
+    "x-generation-date": "2024-12-04T12:12:23.854Z"
   },
   "x-strapi-config": {
     "plugins": [
@@ -4355,9 +4355,6 @@
               "name": {
                 "type": "string"
               },
-              "active": {
-                "type": "boolean"
-              },
               "last_updated": {
                 "type": "string",
                 "format": "date-time"
@@ -4387,6 +4384,28 @@
                   "example": "string or id"
                 }
               },
+              "device_id": {
+                "type": "string"
+              },
+              "user": {
+                "oneOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ],
+                "example": "string or id"
+              },
+              "device_type": {
+                "type": "string",
+                "enum": [
+                  "sensor",
+                  "actuator"
+                ]
+              },
+              "metadata": {},
               "locale": {
                 "type": "string"
               },
@@ -4455,9 +4474,6 @@
           "name": {
             "type": "string"
           },
-          "active": {
-            "type": "boolean"
-          },
           "last_updated": {
             "type": "string",
             "format": "date-time"
@@ -4487,9 +4503,6 @@
                     },
                     "name": {
                       "type": "string"
-                    },
-                    "active": {
-                      "type": "boolean"
                     },
                     "last_updated": {
                       "type": "string",
@@ -5584,6 +5597,20 @@
                                   }
                                 }
                               },
+                              "devices": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
+                                    "documentId": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              },
                               "createdAt": {
                                 "type": "string",
                                 "format": "date-time"
@@ -5747,6 +5774,28 @@
                         }
                       }
                     },
+                    "device_id": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "documentId": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "device_type": {
+                      "type": "string",
+                      "enum": [
+                        "sensor",
+                        "actuator"
+                      ]
+                    },
+                    "metadata": {},
                     "createdAt": {
                       "type": "string",
                       "format": "date-time"
@@ -5890,6 +5939,28 @@
               }
             }
           },
+          "device_id": {
+            "type": "string"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "documentId": {
+                "type": "string"
+              }
+            }
+          },
+          "device_type": {
+            "type": "string",
+            "enum": [
+              "sensor",
+              "actuator"
+            ]
+          },
+          "metadata": {},
           "createdAt": {
             "type": "string",
             "format": "date-time"
@@ -6446,9 +6517,6 @@
                           "name": {
                             "type": "string"
                           },
-                          "active": {
-                            "type": "boolean"
-                          },
                           "last_updated": {
                             "type": "string",
                             "format": "date-time"
@@ -6680,6 +6748,28 @@
                               }
                             }
                           },
+                          "device_id": {
+                            "type": "string"
+                          },
+                          "user": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "documentId": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "device_type": {
+                            "type": "string",
+                            "enum": [
+                              "sensor",
+                              "actuator"
+                            ]
+                          },
+                          "metadata": {},
                           "createdAt": {
                             "type": "string",
                             "format": "date-time"
@@ -7319,6 +7409,20 @@
                 }
               },
               "family_requests": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "documentId": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "devices": {
                 "type": "array",
                 "items": {
                   "type": "object",
@@ -7971,9 +8075,6 @@
                           "name": {
                             "type": "string"
                           },
-                          "active": {
-                            "type": "boolean"
-                          },
                           "last_updated": {
                             "type": "string",
                             "format": "date-time"
@@ -8205,6 +8306,28 @@
                               }
                             }
                           },
+                          "device_id": {
+                            "type": "string"
+                          },
+                          "user": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "documentId": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "device_type": {
+                            "type": "string",
+                            "enum": [
+                              "sensor",
+                              "actuator"
+                            ]
+                          },
+                          "metadata": {},
                           "createdAt": {
                             "type": "string",
                             "format": "date-time"
@@ -8844,6 +8967,20 @@
                 }
               },
               "family_requests": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "documentId": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "devices": {
                 "type": "array",
                 "items": {
                   "type": "object",
@@ -9715,9 +9852,6 @@
                           "name": {
                             "type": "string"
                           },
-                          "active": {
-                            "type": "boolean"
-                          },
                           "last_updated": {
                             "type": "string",
                             "format": "date-time"
@@ -9949,6 +10083,28 @@
                               }
                             }
                           },
+                          "device_id": {
+                            "type": "string"
+                          },
+                          "user": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "documentId": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "device_type": {
+                            "type": "string",
+                            "enum": [
+                              "sensor",
+                              "actuator"
+                            ]
+                          },
+                          "metadata": {},
                           "createdAt": {
                             "type": "string",
                             "format": "date-time"
@@ -10601,6 +10757,20 @@
                   }
                 }
               },
+              "devices": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "documentId": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
               "createdAt": {
                 "type": "string",
                 "format": "date-time"
@@ -10858,9 +11028,6 @@
                       },
                       "name": {
                         "type": "string"
-                      },
-                      "active": {
-                        "type": "boolean"
                       },
                       "last_updated": {
                         "type": "string",
@@ -11955,6 +12122,20 @@
                                     }
                                   }
                                 },
+                                "devices": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": {
+                                        "type": "number"
+                                      },
+                                      "documentId": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                                },
                                 "createdAt": {
                                   "type": "string",
                                   "format": "date-time"
@@ -12118,6 +12299,28 @@
                           }
                         }
                       },
+                      "device_id": {
+                        "type": "string"
+                      },
+                      "user": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "documentId": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "device_type": {
+                        "type": "string",
+                        "enum": [
+                          "sensor",
+                          "actuator"
+                        ]
+                      },
+                      "metadata": {},
                       "createdAt": {
                         "type": "string",
                         "format": "date-time"
@@ -12509,9 +12712,6 @@
                 },
                 "name": {
                   "type": "string"
-                },
-                "active": {
-                  "type": "boolean"
                 },
                 "last_updated": {
                   "type": "string",
@@ -13728,6 +13928,20 @@
                             }
                           }
                         },
+                        "devices": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "documentId": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
                         "createdAt": {
                           "type": "string",
                           "format": "date-time"
@@ -13859,6 +14073,28 @@
                     }
                   }
                 },
+                "device_id": {
+                  "type": "string"
+                },
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "number"
+                    },
+                    "documentId": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "device_type": {
+                  "type": "string",
+                  "enum": [
+                    "sensor",
+                    "actuator"
+                  ]
+                },
+                "metadata": {},
                 "createdAt": {
                   "type": "string",
                   "format": "date-time"

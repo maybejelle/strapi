@@ -15,9 +15,6 @@
     "name": {
       "type": "string"
     },
-    "active": {
-      "type": "boolean"
-    },
     "last_updated": {
       "type": "datetime"
     },
@@ -32,6 +29,25 @@
       "relation": "manyToMany",
       "target": "api::family.family",
       "mappedBy": "devices"
+    },
+    "device_id": {
+      "type": "string"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "devices"
+    },
+    "device_type": {
+      "type": "enumeration",
+      "enum": [
+        "sensor",
+        "actuator"
+      ]
+    },
+    "metadata": {
+      "type": "json"
     }
   }
 }
