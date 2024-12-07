@@ -1,3 +1,5 @@
+import family from "../api/family/controllers/family";
+
 module.exports = (config, { strapi }) => {
   return async (ctx, next) => {
     // Ensure the user is authenticated
@@ -18,10 +20,35 @@ module.exports = (config, { strapi }) => {
       ctx.forbidden("You are not authorized to perform this action.");
       return;
     }
+
+ const user = await strapi.query("plugin::users-permissions.user").findOne({
+   where: { documentId: userId },
+   populate: { family_owner: true, families_member: true },
+ });
+
+    console.log(user);
+    if (!user) {
+      ctx.notFound("User not found.");
+      return;
+    }
+
+   
+    
+    let familyId = ""
+    // Check if the user is the owner of the family
+    if(user.family_owner !== null){
+      familyId = user.family_owner.documentId;
+    }else if(user.families_member.length > 0){
+      familyId = user.families_member[0].documentId;
+    }
+
+    console.log(user);
+
       ctx.request.body.data = {
         name: ctx.request.body.data.name,
         device_id: ctx.request.body.data.device_id,
         user: userId,
+        family: familyId,
         location: ctx.request.body.data.location,
         device_type: ctx.request.body.data.device_type,
       };
@@ -46,7 +73,7 @@ module.exports = (config, { strapi }) => {
         user: device.user.documentId,
         location: device.location.documentId,
         device_type: device.device_type,
-        metadata: { temperature: ctx.request.body.data.temperature },
+        metadata: ctx.request.body.data.metadata,
       };
     }
 

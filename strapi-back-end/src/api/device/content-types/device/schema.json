@@ -24,11 +24,11 @@
       "target": "api::location.location",
       "inversedBy": "devices"
     },
-    "families": {
+    "family": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "manyToOne",
       "target": "api::family.family",
-      "mappedBy": "devices"
+      "inversedBy": "devices"
     },
     "device_id": {
       "type": "string"

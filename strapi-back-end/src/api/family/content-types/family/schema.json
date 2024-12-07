@@ -27,12 +27,6 @@
       "target": "plugin::users-permissions.user",
       "inversedBy": "families_member"
     },
-    "devices": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::device.device",
-      "inversedBy": "families"
-    },
     "locations": {
       "type": "relation",
       "relation": "oneToMany",
@@ -43,6 +37,12 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::family-request.family-request",
+      "mappedBy": "family"
+    },
+    "devices": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::device.device",
       "mappedBy": "family"
     }
   }

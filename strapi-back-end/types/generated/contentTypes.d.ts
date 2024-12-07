@@ -386,7 +386,7 @@ export interface ApiDeviceDevice extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     device_id: Schema.Attribute.String;
     device_type: Schema.Attribute.Enumeration<['sensor', 'actuator']>;
-    families: Schema.Attribute.Relation<'manyToMany', 'api::family.family'>;
+    family: Schema.Attribute.Relation<'manyToOne', 'api::family.family'>;
     last_updated: Schema.Attribute.DateTime;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -460,7 +460,7 @@ export interface ApiFamilyFamily extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    devices: Schema.Attribute.Relation<'manyToMany', 'api::device.device'>;
+    devices: Schema.Attribute.Relation<'oneToMany', 'api::device.device'>;
     family_requests: Schema.Attribute.Relation<
       'oneToMany',
       'api::family-request.family-request'
