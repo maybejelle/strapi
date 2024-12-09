@@ -1,4 +1,4 @@
-import family from "../api/family/controllers/family";
+
 
 module.exports = (config, { strapi }) => {
   return async (ctx, next) => {
