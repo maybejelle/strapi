@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "logs",
+  "info": {
+    "singularName": "log",
+    "pluralName": "logs",
+    "displayName": "Log"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "logType": {
+      "type": "enumeration",
+      "enum": [
+        "info",
+        "add",
+        "update",
+        "error"
+      ]
+    },
+    "description": {
+      "type": "string"
+    }
+  }
+}

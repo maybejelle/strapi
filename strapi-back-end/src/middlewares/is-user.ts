@@ -1,5 +1,3 @@
-
-
 module.exports = (config, { strapi }) => {
   return async (ctx, next) => {
     // Ensure the user is authenticated
@@ -9,40 +7,34 @@ module.exports = (config, { strapi }) => {
       return;
     }
 
-    
-   
-
-    if (ctx.request.method === "POST") { 
+    if (ctx.request.method === "POST") {
       const userId = ctx.request.body.data.claimed_by;
 
-    // Check if the userId matches the logged-in user's ID
-    if (userId !== loggedInUser.documentId) {
-      ctx.forbidden("You are not authorized to perform this action.");
-      return;
-    }
+      // Check if the userId matches the logged-in user's ID
+      if (userId !== loggedInUser.documentId) {
+        ctx.forbidden("You are not authorized to perform this action.");
+        return;
+      }
 
- const user = await strapi.query("plugin::users-permissions.user").findOne({
-   where: { documentId: userId },
-   populate: { family_owner: true, families_member: true },
- });
+      const user = await strapi
+        .query("plugin::users-permissions.user")
+        .findOne({
+          where: { documentId: userId },
+          populate: { family_owner: true, families_member: true },
+        });
 
-    console.log(user);
-    if (!user) {
-      ctx.notFound("User not found.");
-      return;
-    }
+      if (!user) {
+        ctx.notFound("User not found.");
+        return;
+      }
 
-   
-    
-    let familyId = ""
-    // Check if the user is the owner of the family
-    if(user.family_owner !== null){
-      familyId = user.family_owner.documentId;
-    }else if(user.families_member.length > 0){
-      familyId = user.families_member[0].documentId;
-    }
-
-    console.log(user);
+      let familyId = "";
+      // Check if the user is the owner of the family
+      if (user.family_owner !== null) {
+        familyId = user.family_owner.documentId;
+      } else if (user.families_member.length > 0) {
+        familyId = user.families_member[0].documentId;
+      }
 
       ctx.request.body.data = {
         name: ctx.request.body.data.name,
@@ -57,13 +49,13 @@ module.exports = (config, { strapi }) => {
     if (ctx.request.method === "PUT") {
       const device = await strapi.query("api::device.device").findOne({
         where: { documentId: ctx.request.params.id },
-        populate: {user : true, location: true},
+        populate: { user: true, location: true },
       });
       if (!device) {
         ctx.notFound("Device not found.");
         return;
       }
-      if(device.user.documentId !== loggedInUser.documentId){
+      if (device.user.documentId !== loggedInUser.documentId) {
         ctx.forbidden("You are not authorized to perform this action.");
         return;
       }
@@ -76,7 +68,6 @@ module.exports = (config, { strapi }) => {
         metadata: ctx.request.body.data.metadata,
       };
     }
-
     await next();
   };
 };

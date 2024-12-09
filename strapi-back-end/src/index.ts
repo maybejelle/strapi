@@ -18,6 +18,41 @@ export default {
    */
   bootstrap({ strapi }) {
     strapi.db.lifecycles.subscribe({
+      models: ["api::device.device"],
+      async afterUpdate(event) {
+        const { result } = event;
+        const deviceId = result.name;
+        try {
+          await strapi.entityService.create("api::log.log", {
+            data: {
+              logType: "update",
+              description: `Device ${deviceId} was updated on ${new Date().toISOString()}`,
+            },
+          });
+        } catch (err) {
+          console.log(err);
+
+        }
+
+      },
+      async afterCreate(event) {
+        const { result } = event;
+        const deviceId = result.name;
+        try {
+          if (result.created_at === result.updated_at) {
+            await strapi.entityService.create("api::log.log", {
+              data: {
+                logType: "add",
+                description: `Device ${deviceId} was created on ${new Date().toISOString()}`,
+              },
+            });
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      },
+    });
+    strapi.db.lifecycles.subscribe({
       models: ["api::family-request.family-request"],
 
       async afterUpdate(event) {
