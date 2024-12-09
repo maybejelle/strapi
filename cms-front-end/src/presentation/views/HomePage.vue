@@ -2,6 +2,7 @@
     <div class="wrapper">
         <IconButton :icon="HomeIcon" @click="returnToHomePage" title="My home"></IconButton>
         <IconButton :icon="SettingsIcon" @click="goToSettings" title="Families"></IconButton>
+        <IconButton :icon="LogIcon" @click="goToLogs" title="Logs"></IconButton>
     </div>
 </template>
 
@@ -9,6 +10,7 @@
 import IconButton from './IconButton.vue';
 import SettingsIcon from '../../assets/settings.png';
 import HomeIcon from '../../assets/home-icon.png';
+import LogIcon from '../../assets/logs.png';
 
 
 export default {
@@ -19,7 +21,8 @@ export default {
     data() {
         return {
             HomeIcon,
-            SettingsIcon
+            SettingsIcon,
+            LogIcon
         }
     },
     methods: {
@@ -28,6 +31,9 @@ export default {
         },
         goToSettings() {
             this.$router.push({ path: '/settings' });
+        },
+        goToLogs() {
+            this.$router.push({ path: '/logs' });
         }
     }
 }

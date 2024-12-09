@@ -5,7 +5,7 @@ import HomePage from "../presentation/views/HomePage.vue";
 import LocationOverview from "../presentation/views/LocationOverview.vue";
 import RegisterPage from "../presentation/views/RegisterPage.vue";
 import SettingsPage from "../presentation/views/SettingsPage.vue";
-
+import LogsOverview from "../presentation/views/LogsOverview.vue";
 
 
 const routes = [ 
@@ -14,7 +14,8 @@ const routes = [
   {path : "/homePage", component: HomePage},
   {path:"/myHome", component: LocationOverview},
   {path: '/register', component: RegisterPage},
-  {path:"/settings", component: SettingsPage}
+  {path:"/settings", component: SettingsPage},
+  {path:"/logs", component: LogsOverview}
  
 ];
 

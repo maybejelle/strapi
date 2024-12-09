@@ -122,3 +122,11 @@ function getFamilies(data) {
   }
   return families;
 }
+
+export const getLogs = async (cookie) => {
+  return axios.get(`${BASE_URL}/logs`, {
+    headers: {
+      Authorization: `${cookie}`,
+    },
+  });
+};
