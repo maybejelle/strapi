@@ -25,6 +25,7 @@ export default {
     },
     async created() {
         const data = await fetchDevicesUseCase.execute(this.$route.params.id)
+        console.log(data);
         this.devices = data.devices;
         this.locationName = data.name;
 

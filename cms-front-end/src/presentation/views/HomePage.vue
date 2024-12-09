@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper">
         <IconButton :icon="HomeIcon" @click="returnToHomePage" title="My home"></IconButton>
-        <IconButton :icon="SettingsIcon" @click="goToSettings" title="Settings"></IconButton>
+        <IconButton :icon="SettingsIcon" @click="goToSettings" title="Families"></IconButton>
     </div>
 </template>
 

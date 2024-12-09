@@ -1,6 +1,10 @@
 <template>
-    <div>
+    <div class="wrapper">
         <h2>{{device.name}}</h2>
+        <div>
+            <p v-for="(data, key) in device.metadata" :key="key">{{key}}: {{data}}</p>
+        </div>
+        <p>{{device.device_type}}</p>
     </div>
 </template>
 
@@ -16,7 +20,7 @@ export default {
 </script>
 
 <style scoped>
-div{
+.wrapper{
     display: flex;
     border: 1px solid black;
     margin: 10px 0;
@@ -26,12 +30,13 @@ div{
     border-radius: 1rem;
     cursor: pointer;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space -between;
 }
 
-h2{
-    margin-left: 1rem;
+h2, p{
+    margin: 1rem;
 }
+
 
 button{
     background-color: transparent;
