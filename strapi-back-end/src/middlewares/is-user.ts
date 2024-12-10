@@ -59,6 +59,9 @@ module.exports = (config, { strapi }) => {
         ctx.forbidden("You are not authorized to perform this action.");
         return;
       }
+
+      console.log(ctx.request.body);
+
       ctx.request.body.data = {
         name: device.name,
         device_id: device.device_id,
