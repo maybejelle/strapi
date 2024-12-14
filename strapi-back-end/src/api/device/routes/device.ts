@@ -7,19 +7,19 @@ import { factories } from '@strapi/strapi';
 export default factories.createCoreRouter("api::device.device", {
   config: {
     create: {
-      middlewares: ["global::is-user"],
+      middlewares: ["global::deviceMiddleware"],
     },
     update: {
-      middlewares: ["global::is-user"],
+      middlewares: ["global::deviceMiddleware"],
     },
     delete: {
-      middlewares: ["global::is-user"],
+      middlewares: ["global::deviceMiddleware"],
     },
     find: {
-      middlewares: ["global::is-user"],
+      middlewares: ["global::deviceMiddleware"],
     },
     findOne: {
-      middlewares: ["global::is-user"],
+      middlewares: ["global::deviceMiddleware"],
     },
   },
 });
