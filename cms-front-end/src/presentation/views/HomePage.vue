@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <IconButton :icon="HomeIcon" @click="returnToHomePage" title="My home"></IconButton>
+        <IconButton :icon="HomeIcon" @click="returnToMyHome" title="My home"></IconButton>
         <IconButton :icon="SettingsIcon" @click="goToSettings" title="Families"></IconButton>
         <IconButton :icon="LogIcon" @click="goToLogs" title="Logs"></IconButton>
     </div>
@@ -26,7 +26,7 @@ export default {
         }
     },
     methods: {
-        returnToHomePage() {
+        returnToMyHome() {
             this.$router.push({ path: '/myHome' });
         },
         goToSettings() {
