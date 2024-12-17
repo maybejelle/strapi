@@ -412,12 +412,13 @@ export interface ApiFamilyRequestFamilyRequest
   extends Struct.CollectionTypeSchema {
   collectionName: 'family_requests';
   info: {
+    description: '';
     displayName: 'Family Request';
     pluralName: 'family-requests';
     singularName: 'family-request';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     createdAt: Schema.Attribute.DateTime;
@@ -1092,6 +1093,7 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::family-request.family-request'
     >;
+    fcm_token: Schema.Attribute.String;
     friend_requests_recipient: Schema.Attribute.Relation<
       'oneToMany',
       'api::friend-request.friend-request'

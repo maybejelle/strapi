@@ -1,4 +1,4 @@
-
+const fcmPushNotification = require("../src/services/fcm-push-notification");
 export default {
   /**
    * An asynchronous register function that runs before
@@ -30,9 +30,7 @@ export default {
           });
         } catch (err) {
           console.log(err);
-
         }
-
       },
       async afterCreate(event) {
         const { result } = event;
@@ -53,6 +51,27 @@ export default {
     });
     strapi.db.lifecycles.subscribe({
       models: ["api::family-request.family-request"],
+
+      async afterCreate(event) {
+        const { result } = event;
+        const id = result.documentId;
+
+        const familyRequest = await strapi
+          .query("api::family-request.family-request")
+          .findOne({
+            where: { documentId: id },
+            populate: { recipient: true },
+          });
+
+        if (familyRequest.recipient.fcm_token) {
+          const message = `You have a new family request `;
+          console.log(familyRequest.recipient.fcm_token);
+          await fcmPushNotification.sendPushNotification(
+            familyRequest.recipient.fcm_token,
+            message
+          );
+        }
+      },
 
       async afterUpdate(event) {
         const { result } = event;

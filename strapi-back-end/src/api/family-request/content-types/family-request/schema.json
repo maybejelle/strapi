@@ -4,10 +4,11 @@
   "info": {
     "singularName": "family-request",
     "pluralName": "family-requests",
-    "displayName": "Family Request"
+    "displayName": "Family Request",
+    "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
