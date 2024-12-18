@@ -11,16 +11,13 @@ module.exports = (config, { strapi }) => {
     await next();
   };
 
-  
+
    function addFiltersToQuery(ctx, userId) {
      ctx.query = {
        ...ctx.query,
        filters: {
          ...ctx.query.filters,
-         $or: [
-           { family: { owner: userId } },
-           { family: { members: userId } },
-         ],
+         $or: [{ user: userId }],
        },
      };
    }

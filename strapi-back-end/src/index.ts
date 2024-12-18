@@ -20,12 +20,18 @@ export default {
       models: ["api::device.device"],
       async afterUpdate(event) {
         const { result } = event;
-        const deviceId = result.name;
+        const deviceName = result.name;
+        const device = await strapi.query("api::device.device").findOne({
+          where: { documentId: result.documentId },
+          populate: { user: true },
+        });
+
         try {
           await strapi.entityService.create("api::log.log", {
             data: {
               logType: "update",
-              description: `Device ${deviceId} was updated on ${new Date().toISOString()}`,
+              description: `Device ${deviceName} was updated on ${new Date().toISOString()}`,
+              user: device.user.documentId,
             },
           });
         } catch (err) {
@@ -34,13 +40,18 @@ export default {
       },
       async afterCreate(event) {
         const { result } = event;
-        const deviceId = result.name;
+        const deviceName = result.name;
+        const device = await strapi.query("api::device.device").findOne({
+          where: { documentId: result.documentId },
+          populate: { user: true },
+        });
         try {
           if (result.created_at === result.updated_at) {
             await strapi.entityService.create("api::log.log", {
               data: {
                 logType: "add",
-                description: `Device ${deviceId} was created on ${new Date().toISOString()}`,
+                description: `Device ${deviceName} was created on ${new Date().toISOString()}`,
+                user: device.user.documentId,
               },
             });
           }
@@ -48,6 +59,51 @@ export default {
           console.log(err);
         }
       },
+    });
+    strapi.db.lifecycles.subscribe({
+      models : ['api::location.location'],
+      async afterUpdate(event) {
+        const { result } = event;
+        const locationName = result.name;
+        const location = await strapi.query('api::location.location').findOne({
+          where: { documentId: result.documentId },
+          populate: { user: true }
+        });
+
+        try {
+          await strapi.entityService.create('api::log.log', {
+            data: {
+              logType: 'update',
+              description: `Location ${locationName} was updated on ${new Date().toISOString()}`,
+              user: location.user.documentId
+            }
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      },
+      async afterCreate(event) {
+        const { result } = event;
+        const locationName = result.name;
+        const location = await strapi.query('api::location.location').findOne({
+          where: { documentId: result.documentId },
+          populate: { user: true }
+        });
+
+        try {
+          if (result.created_at === result.updated_at) {
+            await strapi.entityService.create('api::log.log', {
+              data: {
+                logType: 'add',
+                description: `Location ${locationName} was created on ${new Date().toISOString()}`,
+                user: location.user.documentId
+              }
+            });
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
     });
     strapi.db.lifecycles.subscribe({
       models: ["api::family-request.family-request"],
