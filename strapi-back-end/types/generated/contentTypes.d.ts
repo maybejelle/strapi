@@ -473,6 +473,7 @@ export interface ApiFamilyFamily extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     locations: Schema.Attribute.Relation<'oneToMany', 'api::location.location'>;
+    logs: Schema.Attribute.Relation<'oneToMany', 'api::log.log'>;
     members: Schema.Attribute.Relation<
       'manyToMany',
       'plugin::users-permissions.user'
@@ -596,6 +597,7 @@ export interface ApiLocationLocation extends Struct.CollectionTypeSchema {
 export interface ApiLogLog extends Struct.CollectionTypeSchema {
   collectionName: 'logs';
   info: {
+    description: '';
     displayName: 'Log';
     pluralName: 'logs';
     singularName: 'log';
@@ -608,6 +610,7 @@ export interface ApiLogLog extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.String;
+    family: Schema.Attribute.Relation<'manyToOne', 'api::family.family'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::log.log'> &
       Schema.Attribute.Private;

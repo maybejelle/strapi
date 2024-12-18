@@ -4,7 +4,8 @@
   "info": {
     "singularName": "log",
     "pluralName": "logs",
-    "displayName": "Log"
+    "displayName": "Log",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -22,6 +23,12 @@
     },
     "description": {
       "type": "string"
+    },
+    "family": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::family.family",
+      "inversedBy": "logs"
     }
   }
 }

@@ -44,6 +44,12 @@
       "relation": "oneToMany",
       "target": "api::device.device",
       "mappedBy": "family"
+    },
+    "logs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::log.log",
+      "mappedBy": "family"
     }
   }
 }
