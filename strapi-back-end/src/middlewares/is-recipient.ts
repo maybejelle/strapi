@@ -12,6 +12,7 @@ module.exports = (config, { strapi }) => {
     const appUid = generateUID(apiName);
 
     if (entryId) {
+      
         const request = await getRequest(strapi, appUid, entryId);
         console.log(request);
         if (!isAuthorizedUser(request.recipient, userId, ctx)) return ctx.unauthorized(`You can't access this entry`);
