@@ -1,5 +1,4 @@
 import admin from "firebase-admin";
-import path from "path";
 const serviceAccount = JSON.stringify({
   type: process.env.FIREBASE_TYPE,
   project_id: process.env.FIREBASE_PROJECT_ID,
