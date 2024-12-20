@@ -8,13 +8,14 @@ module.exports = (config, { strapi }) => {
     }
 
     if (ctx.request.method === "POST") {
-      const userId = ctx.request.body.data.claimed_by;
+      const userId = ctx.request.body.data.user;
 
       // Check if the userId matches the logged-in user's ID
       if (userId !== loggedInUser.documentId) {
         ctx.forbidden("You are not authorized to perform this action.");
         return;
       }
+      
 
       const user = await strapi
         .query("plugin::users-permissions.user")
