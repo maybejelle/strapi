@@ -40,7 +40,8 @@ module.exports = (config, { strapi }) => {
 
       ctx.request.body.data = {
         name: ctx.request.body.data.name,
-        user: userId
+        user: userId,
+        location: ctx.request.body.data.location,
       };
     }
     // if put request update metadata from device
