@@ -15,7 +15,7 @@ module.exports = (config, { strapi }) => {
         ctx.forbidden("You are not authorized to perform this action.");
         return;
       }
-      
+
 
       const user = await strapi
         .query("plugin::users-permissions.user")
@@ -38,12 +38,7 @@ module.exports = (config, { strapi }) => {
       }
 
       ctx.request.body.data = {
-        name: ctx.request.body.data.name,
-        device_id: ctx.request.body.data.device_id,
-        user: userId,
-        family: familyId,
-        location: ctx.request.body.data.location,
-        device_type: ctx.request.body.data.device_type,
+        name: ctx.request.body.data.name
       };
     }
     // if put request update metadata from device
