@@ -42,8 +42,7 @@ module.exports = (config, { strapi }) => {
         name: ctx.request.body.data.name,
         user: userId,
         location: ctx.request.body.data.location,
-        device_type: ctx.request.body.data.device_type,
-        family: familyId,
+        device_type: ctx.request.body.data.device_type
       };
     }
     // if put request update metadata from device
