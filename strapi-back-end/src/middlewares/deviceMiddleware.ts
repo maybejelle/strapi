@@ -16,7 +16,6 @@ module.exports = (config, { strapi }) => {
         return;
       }
 
-
       const user = await strapi
         .query("plugin::users-permissions.user")
         .findOne({
@@ -32,7 +31,6 @@ module.exports = (config, { strapi }) => {
       let familyId = "";
       // Check if the user is the owner of the family
       if (user.family_owner !== null) {
-
         familyId = user.family_owner.documentId;
       } else if (user.families_member.length > 0) {
         familyId = user.families_member[0].documentId;
@@ -42,8 +40,11 @@ module.exports = (config, { strapi }) => {
         name: ctx.request.body.data.name,
         user: userId,
         location: ctx.request.body.data.location,
-        device_type: ctx.request.body.data.device_type
+        device_type: ctx.request.body.data.device_type,
       };
+      if (familyId !== "") {
+        ctx.request.body.data.family = familyId;
+      }
     }
     // if put request update metadata from device
     if (ctx.request.method === "PUT") {
