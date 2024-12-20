@@ -32,14 +32,15 @@ module.exports = (config, { strapi }) => {
       let familyId = "";
       // Check if the user is the owner of the family
       if (user.family_owner !== null) {
-        
+
         familyId = user.family_owner.documentId;
       } else if (user.families_member.length > 0) {
         familyId = user.families_member[0].documentId;
       }
 
       ctx.request.body.data = {
-        name: ctx.request.body.data.name
+        name: ctx.request.body.data.name,
+        user: userId
       };
     }
     // if put request update metadata from device
