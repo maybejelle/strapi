@@ -46,7 +46,7 @@ module.exports = (config, { strapi }) => {
         ctx.request.body.data.family = familyId;
       }
     }
-    // if put request update metadata from device
+   
     if (ctx.request.method === "PUT") {
       const device = await strapi.query("api::device.device").findOne({
         where: { documentId: ctx.request.params.id },
