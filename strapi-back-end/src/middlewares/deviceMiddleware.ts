@@ -60,30 +60,23 @@ module.exports = (config, { strapi }) => {
         populate: { owner: true, members: true },
       });
 
-      console.log(device);
-
-      console.log(family);
-
-      if (family) {
-        if (
-          family.owner.documentId !== loggedInUser.documentId &&
-          !family.members.includes(loggedInUser.documentId)
-        ) {
-          ctx.forbidden("You are not authorized to perform this action.");
-          return;
-        }
-      }
-
       if (!device) {
         ctx.notFound("Device not found.");
         return;
       }
-      if (device.user.documentId !== loggedInUser.documentId) {
+
+      if(family){
+        if (!isAuthorizedFamilyMember(family, loggedInUser.documentId, ctx)) {
+          return ctx.unauthorized(
+            `You are not authorized to perform this action.`
+          );
+        }
+      }
+
+      if (device.user.documentId !== loggedInUser.documentId && !family) {
         ctx.forbidden("You are not authorized to perform this action.");
         return;
       }
-
-      console.log(ctx.request.body);
 
       ctx.request.body.data = {
         name: device.name,
@@ -96,4 +89,18 @@ module.exports = (config, { strapi }) => {
     }
     await next();
   };
+
+  function isAuthorizedFamilyMember(family, userId, ctx) {
+    const isOwner = family.owner.documentId === userId;
+    const isMember = family.members.some((member) => member.documentId === userId);
+    if (!isOwner && !isMember) {
+      ctx.unauthorized(`You can't access this entry`);
+      return false;
+    }
+    if (!isOwner && ctx.request.method !== "GET") {
+      ctx.unauthorized(`You can't access this entry`);
+      return false;
+    }
+    return true;
+  }
 };
