@@ -7,6 +7,7 @@ module.exports = (config, { strapi }) => {
       return;
     }
 
+    
     if (ctx.request.method === "POST") {
       const ownerId = ctx.request.body.data.owner;
       if(ownerId !== loggedInUser.documentId){
