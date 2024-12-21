@@ -1,3 +1,5 @@
+import family from "../api/family/controllers/family";
+
 module.exports = (config, { strapi }) => {
   return async (ctx, next) => {
     // Ensure the user is authenticated
@@ -41,18 +43,33 @@ module.exports = (config, { strapi }) => {
         user: userId,
         location: ctx.request.body.data.location,
         device_type: ctx.request.body.data.device_type,
-        device_id: ctx.request.body.data.device_id
+        device_id: ctx.request.body.data.device_id,
       };
       if (familyId !== "") {
         ctx.request.body.data.family = familyId;
       }
     }
-   
+
     if (ctx.request.method === "PUT") {
       const device = await strapi.query("api::device.device").findOne({
         where: { documentId: ctx.request.params.id },
-        populate: { user: true, location: true },
+        populate: { user: true, location: true, family: true },
       });
+      const family = await strapi.query("api::family.family").findOne({
+        where: { documentId: device.family.documentId },
+        populate: { owner: true, members: true },
+      });
+
+      if (family) {
+        if (
+          family.owner.documentId !== loggedInUser.documentId &&
+          !family.members.includes(loggedInUser.documentId)
+        ) {
+          ctx.forbidden("You are not authorized to perform this action.");
+          return;
+        }
+      }
+
       if (!device) {
         ctx.notFound("Device not found.");
         return;
