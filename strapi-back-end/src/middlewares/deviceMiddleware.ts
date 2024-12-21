@@ -60,6 +60,10 @@ module.exports = (config, { strapi }) => {
         populate: { owner: true, members: true },
       });
 
+      console.log(device);
+
+      console.log(family);
+
       if (family) {
         if (
           family.owner.documentId !== loggedInUser.documentId &&
