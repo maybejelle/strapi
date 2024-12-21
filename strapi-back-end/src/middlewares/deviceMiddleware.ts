@@ -97,10 +97,6 @@ module.exports = (config, { strapi }) => {
       ctx.unauthorized(`You can't access this entry`);
       return false;
     }
-    if (!isOwner && ctx.request.method !== "GET") {
-      ctx.unauthorized(`You can't access this entry`);
-      return false;
-    }
     return true;
   }
 };
