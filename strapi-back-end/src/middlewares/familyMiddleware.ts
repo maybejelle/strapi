@@ -7,7 +7,7 @@ module.exports = (config, { strapi }) => {
       return;
     }
 
-    
+
     if (ctx.request.method === "POST") {
       const ownerId = ctx.request.body.data.owner;
       if(ownerId !== loggedInUser.documentId){
@@ -19,7 +19,7 @@ module.exports = (config, { strapi }) => {
             .query("plugin::users-permissions.user")
             .findOne({
             where: { documentId: ownerId },
-            populate: { locations: true },
+            populate: { locations: true, devices: true },
             });
 
         if (!owner) {
@@ -32,10 +32,17 @@ module.exports = (config, { strapi }) => {
             locationIds.push(location.documentId);
         });
 
+        const deviceIds = [];
+
+        owner.devices.forEach((device) => {
+            deviceIds.push(device.documentId);
+        });
+
         ctx.request.body.data = {
             name: ctx.request.body.data.name,
             owner: ownerId,
             locations: locationIds,
+            devices: deviceIds,
         };
     }
     await next();
