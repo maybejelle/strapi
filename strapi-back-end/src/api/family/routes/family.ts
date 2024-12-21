@@ -7,10 +7,10 @@ import { factories } from '@strapi/strapi';
 export default factories.createCoreRouter("api::family.family", {
   config: {
     create: {
-      middlewares: [],
+      middlewares: ["global::familyMiddleware"],
     },
     update: {
-      middlewares: ["global::familyMiddleware"],
+      middlewares: [],
     },
     delete: {
       middlewares: [],
