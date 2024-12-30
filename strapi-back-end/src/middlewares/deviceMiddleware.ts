@@ -38,6 +38,7 @@ module.exports = (config, { strapi }) => {
         familyId = user.families_member[0].documentId;
       }
 
+      
       ctx.request.body.data = {
         name: ctx.request.body.data.name,
         user: userId,
