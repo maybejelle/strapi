@@ -44,6 +44,7 @@ module.exports = (config, { strapi }) => {
         location: ctx.request.body.data.location,
         device_type: ctx.request.body.data.device_type,
         device_id: ctx.request.body.data.device_id,
+        metadata: ctx.request.body.data.metadata,
       };
       if (familyId !== "") {
         ctx.request.body.data.family = familyId;
