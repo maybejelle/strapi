@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://group-03-microservices-g0ay578me84b.deno.dev";
+const BASE_URL = "https://group-03-microservices-b5d6rqb8jjap.deno.dev";
 
 export const login = async (identifier, password) => {
   return axios.post(`${BASE_URL}/login`, {

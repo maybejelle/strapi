@@ -1,104 +1,116 @@
-import family from "../api/family/controllers/family";
-
 module.exports = (config, { strapi }) => {
   return async (ctx, next) => {
-    // Ensure the user is authenticated
     const loggedInUser = ctx.state.user;
     if (!loggedInUser) {
-      ctx.unauthorized("You must be logged in to access this resource.");
-      return;
+      return ctx.unauthorized("You must be logged in to access this resource.");
     }
 
-    if (ctx.request.method === "POST") {
-      const userId = ctx.request.body.data.user;
+    const { method, body, params } = ctx.request;
 
-      // Check if the userId matches the logged-in user's ID
-      if (userId !== loggedInUser.documentId) {
-        ctx.forbidden("You are not authorized to perform this action.");
-        return;
-      }
-
-      const user = await strapi
-        .query("plugin::users-permissions.user")
-        .findOne({
-          where: { documentId: userId },
-          populate: { family_owner: true, families_member: true },
-        });
-
-      if (!user) {
-        ctx.notFound("User not found.");
-        return;
-      }
-
-      let familyId = "";
-      // Check if the user is the owner of the family
-      if (user.family_owner !== null) {
-        familyId = user.family_owner.documentId;
-      } else if (user.families_member.length > 0) {
-        familyId = user.families_member[0].documentId;
-      }
-
-    
-      ctx.request.body.data = {
-        name: ctx.request.body.data.name,
-        user: userId,
-        location: ctx.request.body.data.location,
-        device_type: ctx.request.body.data.device_type,
-        device_id: ctx.request.body.data.device_id,
-        metadata: ctx.request.body.data.metadata,
-      };
-      if (familyId !== "") {
-        ctx.request.body.data.family = familyId;
-      }
+    if (method === "POST") {
+      await handlePostRequest(ctx, loggedInUser, body, strapi);
+    } else if (method === "PUT") {
+      await handlePutRequest(ctx, loggedInUser, params, body, strapi);
     }
 
-    if (ctx.request.method === "PUT") {
-      const device = await strapi.query("api::device.device").findOne({
-        where: { documentId: ctx.request.params.id },
-        populate: { user: true, location: true, family: true },
-      });
-      const family = await strapi.query("api::family.family").findOne({
-        where: { documentId: device.family.documentId },
-        populate: { owner: true, members: true },
-      });
-
-      if (!device) {
-        ctx.notFound("Device not found.");
-        return;
-      }
-
-      if(family){
-        if (!isAuthorizedFamilyMember(family, loggedInUser.documentId, ctx)) {
-          return ctx.unauthorized(
-            `You are not authorized to perform this action.`
-          );
-        }
-      }
-
-      if (device.user.documentId !== loggedInUser.documentId && !family) {
-        ctx.forbidden("You are not authorized to perform this action.");
-        return;
-      }
-
-      ctx.request.body.data = {
-        name: device.name,
-        device_id: device.device_id,
-        user: device.user.documentId,
-        location: device.location.documentId,
-        device_type: device.device_type,
-        metadata: ctx.request.body.data.metadata,
-      };
-    }
     await next();
   };
-
-  function isAuthorizedFamilyMember(family, userId, ctx) {
-    const isOwner = family.owner.documentId === userId;
-    const isMember = family.members.some((member) => member.documentId === userId);
-    if (!isOwner && !isMember) {
-      ctx.unauthorized(`You can't access this entry`);
-      return false;
-    }
-    return true;
-  }
 };
+
+async function handlePostRequest(ctx, loggedInUser, body, strapi) {
+  const userId = body.data.user;
+
+  if (userId !== loggedInUser.documentId) {
+    return ctx.forbidden("You are not authorized to perform this action.");
+  }
+
+  const user = await strapi.query("plugin::users-permissions.user").findOne({
+    where: { documentId: userId },
+    populate: { family_owner: true, families_member: true },
+  });
+
+  if (!user) {
+    return ctx.notFound("User not found.");
+  }
+
+  const familyId = getFamilyId(user);
+  body.data = sanitizePostBody(body.data, userId, familyId);
+}
+
+async function handlePutRequest(ctx, loggedInUser, params, body, strapi) {
+  const device = await strapi.query("api::device.device").findOne({
+    where: { documentId: params.id },
+    populate: { user: true, location: true, family: true },
+  });
+
+  if (!device) {
+    return ctx.notFound("Device not found.");
+  }
+
+  if (device.family) {
+    const family = await strapi.query("api::family.family").findOne({
+      where: { documentId: device.family.documentId },
+      populate: { owner: true, members: true },
+    });
+
+    if (!isAuthorizedFamilyMember(family, loggedInUser.documentId)) {
+      return ctx.unauthorized("You are not authorized to perform this action.");
+    }
+  } else if (device.user.documentId !== loggedInUser.documentId) {
+    return ctx.forbidden("You are not authorized to perform this action.");
+  }
+
+  body.data = sanitizePutBody(device, body.data);
+}
+
+function getFamilyId(user) {
+  if (user.family_owner) {
+    return user.family_owner.documentId;
+  }
+  if (user.families_member.length > 0) {
+    return user.families_member[0].documentId;
+  }
+  return "";
+}
+
+function sanitizePostBody(data, userId, familyId) {
+   const sanitized: {
+     name: any;
+     user: any;
+     location: any;
+     device_type: any;
+     device_id: any;
+     metadata: any;
+     family?: any;
+   } = {
+     name: data.name,
+     user: userId,
+     location: data.location,
+     device_type: data.device_type,
+     device_id: data.device_id,
+     metadata: data.metadata,
+   };
+  if (familyId) {
+    sanitized.family = familyId;
+  }
+  return sanitized;
+}
+
+function sanitizePutBody(device, data) {
+  return {
+    name: device.name,
+    device_id: device.device_id,
+    user: device.user.documentId,
+    location: device.location.documentId,
+    device_type: device.device_type,
+    metadata: data.metadata,
+  };
+}
+
+function isAuthorizedFamilyMember(family, userId) {
+  const isOwner = family.owner.documentId === userId;
+  const isMember = family.members.some(
+    (member) => member.documentId === userId
+  );
+  return isOwner || isMember;
+}
