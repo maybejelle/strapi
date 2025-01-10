@@ -25,7 +25,23 @@ export default {
           where: { documentId: result.documentId },
           populate: { user: true },
         });
-
+        const temp = device.metadata.temperature;
+        if(temp){
+          if (temp < 15 && device.user.fcm_token) {
+            const message = `Temperature is below 15 degrees Celsius`;
+            await fcmPushNotification.sendPushNotification(
+              device.user.fcm_token,
+              message
+            );
+          }
+          if(temp > 30 && device.user.fcm_token){
+            const message = `Temperature is above 30 degrees Celsius`;
+            await fcmPushNotification.sendPushNotification(
+              device.user.fcm_token,
+              message
+            );
+          }
+        }
         try {
           await strapi.entityService.create("api::log.log", {
             data: {
