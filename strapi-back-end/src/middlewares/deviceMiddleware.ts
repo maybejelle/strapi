@@ -47,7 +47,7 @@ async function handlePutRequest(ctx, loggedInUser, params, body, strapi) {
     return ctx.notFound("Device not found.");
   }
 
-  if (device.family) {
+  if (device.family !== null) {
     const family = await strapi.query("api::family.family").findOne({
       where: { documentId: device.family.documentId },
       populate: { owner: true, members: true },
